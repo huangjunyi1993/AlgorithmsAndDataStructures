@@ -8,6 +8,8 @@ import java.util.PriorityQueue;
  * 一个整形数组profitsArr，代表项目利润
  * 一个整形k表示最多只能做k个项目，
  * 一个整形w表示初始资金
+ * 同一时间只能做一个项目（不能并行做），做完马上得到利润，然后去做下一个项目
+ * 求最后获得的最大钱数
  */
 public class Greed05 {
 
