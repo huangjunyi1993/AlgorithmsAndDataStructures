@@ -27,7 +27,7 @@ public class Window01 {
 
             //保证窗口的左边界来到下标0，才开始往结果集放入元素
             if (i >= w - 1) {
-                res[index++] = arr[deque.pollFirst()];
+                res[index++] = arr[deque.peekFirst()];
             }
         }
         return res;
