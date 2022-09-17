@@ -8,6 +8,11 @@ import java.util.Stack;
  */
 public class Recursive02 {
 
+    /**
+     * 取出栈底元素
+     * @param stack
+     * @return
+     */
     public static int getBottom(Stack<Integer> stack) {
         int result = stack.pop();
         if (stack.isEmpty()) {
@@ -19,6 +24,10 @@ public class Recursive02 {
         }
     }
 
+    /**
+     * 把栈中元素逆序
+     * @param stack
+     */
     public static void reverse(Stack<Integer> stack) {
         if (stack.isEmpty()) return;
         int bottom = getBottom(stack);

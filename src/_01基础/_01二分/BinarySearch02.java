@@ -17,7 +17,7 @@ public class BinarySearch02 {
             if (arr[mid] >= num) {
                 index = mid; // arr[mid]是目前已知的大于等于num的最左侧位置
                 r = mid - 1; // 排查mid右边的数
-            } else l = mid + 1; // mid以及mid左边的数都比num小，排查mid以及mid左边的数
+            } else l = mid + 1; // mid以及mid左边的数都比num小，排查mid右边的数
         }
         return index;
     }
