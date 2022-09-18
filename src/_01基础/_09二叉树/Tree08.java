@@ -1,4 +1,4 @@
-package _01基础._09二叉数;
+package _01基础._09二叉树;
 
 import java.util.HashMap;
 import java.util.HashSet;
