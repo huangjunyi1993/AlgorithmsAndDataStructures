@@ -1,4 +1,4 @@
-package _03经典面试题目._16滑动窗口;
+package _03经典面试题目.滑动窗口;
 
 /**
  * 给定一个有序数组，从左往右依次表示X轴上从左往右点的位置
@@ -6,7 +6,7 @@ package _03经典面试题目._16滑动窗口;
  * 绳子的边缘点碰到X轴上的点，也算盖住
  * Created by huangjunyi on 2022/9/17.
  */
-public class WindowProblem01 {
+public class _01ShengZiGaiZhuJieDian {
 
     public static int maxPoint(int[] arr, int k) {
         /*

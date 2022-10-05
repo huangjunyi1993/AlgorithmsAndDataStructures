@@ -29,7 +29,7 @@ public class MonotonousStack01 {
                 monotonousStack.peek().add(i);
 
             }
-            //到这里，说明要要入的下标对应的数字比栈顶元素对应的数字大，单独组成一个list压入栈中
+            //到这里，说明要压入的下标对应的数字比栈顶元素对应的数字大，单独组成一个list压入栈中
             else {
                 List<Integer> list = new ArrayList<>();
                 list.add(i);
