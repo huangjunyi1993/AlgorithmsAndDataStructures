@@ -1,4 +1,4 @@
-package _03经典面试题目.预处理数组;
+package _03经典面试题目.前缀和;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -12,7 +12,7 @@ import java.util.Map;
  *
  * Created by huangjunyi on 2022/10/2.
  */
-public class _05CutArrToFourParts {
+public class _01CutArrToFourParts {
 
     public static boolean curArr(int[] arr) {
         if (arr == null || arr.length < 7) return false;

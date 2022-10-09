@@ -1,4 +1,4 @@
-package _03经典面试题目.预处理数组;
+package _03经典面试题目.前缀和;
 
 import java.util.TreeSet;
 
@@ -7,7 +7,7 @@ import java.util.TreeSet;
  *
  * Created by huangjunyi on 2022/10/4.
  */
-public class _07MaxSubMatrixSumLessOrEqualsK {
+public class _03MaxSubMatrixSumLessOrEqualsK {
 
     public static int getMaxSubMatrixSumLessOrEqualsK(int[][] matrix, int k) {
         if (matrix == null || matrix.length == 0 || matrix[0] == null || matrix[0].length == 0) return 0;

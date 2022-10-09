@@ -1,4 +1,4 @@
-package _03经典面试题目.预处理数组;
+package _03经典面试题目.前缀和;
 
 import java.util.TreeSet;
 
@@ -7,7 +7,7 @@ import java.util.TreeSet;
  *
  * Created by huangjunyi on 2022/10/4.
  */
-public class _06MaxSubArrSumLessOrEqualsK {
+public class _02MaxSubArrSumLessOrEqualsK {
 
     public static int getMaxSubArrSumLessOrEqualsK(int[] arr, int k) {
         /*

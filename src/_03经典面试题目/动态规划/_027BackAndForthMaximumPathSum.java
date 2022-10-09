@@ -12,7 +12,10 @@ public class _027BackAndForthMaximumPathSum {
 
     public static int maxPathSum(int[][] matrix) {
         if (matrix == null || matrix.length == 0 || matrix[0] == null || matrix[0].length == 0) return 0;
-        return process(matrix, 0, 0, 0, matrix.length, matrix[0].length);
+        int N = matrix.length;
+        int M = matrix[0].length;
+        int[][][] dp = new int[N][M][N];
+        return process(matrix, 0, 0, 0, N, M, dp);
     }
 
     /**
@@ -23,10 +26,15 @@ public class _027BackAndForthMaximumPathSum {
      * @param br b小人行号，b小人列号通过 ar + ac - br 获得
      * @param N 矩阵高度
      * @param M 矩阵长度
+     * @param dp 缓存表
      * @return
      */
-    private static int process(int[][] matrix, int ar, int ac, int br, int N, int M) {
-        if (ar == N - 1 && ac == M - 1) return matrix[N - 1][M - 1];
+    private static int process(int[][] matrix, int ar, int ac, int br, int N, int M, int[][][] dp) {
+        if (dp[ar][ac][br] != 0) return dp[ar][ac][br];
+        if (ar == N - 1 && ac == M - 1) {
+            dp[ar][ac][br] = matrix[N - 1][M - 1];
+            return matrix[N - 1][M - 1];
+        }
         int bc = ar + ac - br;
         int res = Integer.MIN_VALUE;
         /*
@@ -37,10 +45,10 @@ public class _027BackAndForthMaximumPathSum {
         4、a往右走，b往下走
         取最大值
          */
-        if (ar + 1 < N && ac + 1 < M) Math.max(res, process(matrix, ar + 1, ac, br, N, M));
-        if (ar + 1 < N && br + 1 < N) Math.max(res, process(matrix, ar + 1, ac, br + 1, N, M));
-        if (ac + 1 < M && bc + 1 < M) Math.max(res, process(matrix, ar, ac + 1, br, N, M));
-        if (ac + 1 < M && br + 1 < N) Math.max(res, process(matrix, ar, ac + 1, br + 1, N, M));
+        if (ar + 1 < N && ac + 1 < M) Math.max(res, process(matrix, ar + 1, ac, br, N, M, dp));
+        if (ar + 1 < N && br + 1 < N) Math.max(res, process(matrix, ar + 1, ac, br + 1, N, M, dp));
+        if (ac + 1 < M && bc + 1 < M) Math.max(res, process(matrix, ar, ac + 1, br, N, M, dp));
+        if (ac + 1 < M && br + 1 < N) Math.max(res, process(matrix, ar, ac + 1, br + 1, N, M, dp));
         /*
         如果a和b同一个格子，则只取一份值
         不同格子，则两人站的格子的值，相加，加上上面递归获得的值
@@ -52,6 +60,7 @@ public class _027BackAndForthMaximumPathSum {
          */
         if (ar == br) res += matrix[ar][ac];
         else res += matrix[ar][ac] + matrix[br][bc];
+        dp[ar][ac][br] = res;
         return res;
     }
 
