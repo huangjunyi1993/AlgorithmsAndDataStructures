@@ -5,7 +5,7 @@ package _04LeetCode精选TOP面试题;
  *
  * Created by huangjunyi on 2022/10/29.
  */
-public class 不同路径 {
+public class _040不同路径 {
     public int uniquePaths(int m, int n) {
         int all = (m + n - 2); // 总步数
         /*
