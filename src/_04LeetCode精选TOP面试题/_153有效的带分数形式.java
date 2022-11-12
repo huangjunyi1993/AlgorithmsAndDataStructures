@@ -16,7 +16,7 @@ import java.util.Map;
  * 100，有11种带分数形式
  * Created by huangjunyi on 2022/10/29.
  */
-public class 有效的带分数形式 {
+public class _153有效的带分数形式 {
 
     // 记录每个输入的n，对应有多少种带分数形式，只生成一次，后面直接取
     public static Map<Integer, Integer> map = new HashMap<>();

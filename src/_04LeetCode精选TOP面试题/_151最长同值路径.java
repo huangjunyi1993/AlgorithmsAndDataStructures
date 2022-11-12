@@ -5,7 +5,7 @@ package _04LeetCode精选TOP面试题;
  *
  * Created by huangjunyi on 2022/10/29.
  */
-public class 最长同值路径 {
+public class _151最长同值路径 {
 
     public class TreeNode {
         int val;
