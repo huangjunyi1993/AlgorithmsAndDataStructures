@@ -21,6 +21,7 @@ public class DynamicProgramming03 {
     private static int process(char[] chars, int i) {
         if (i == chars.length) return 1;
         int res = 0;
+        // 如当前位置字符是0，代表之前做的决定有问题
         if (chars[i] == '0') return res;
         res += process(chars, i + 1);
         //当前数字位1，则有两个分支：1.只把当前数字转换为字母，2.把当前数字和下一位合在一起转换为字母
@@ -46,27 +47,33 @@ public class DynamicProgramming03 {
      */
     private static int getThransferCountByDp(String str) {
         char[] chars = str.toCharArray();
+        // 因为暴力递归只有一个变化参数，所以改成动态规划后就以一位dp表
         int[] dp = new int[chars.length + 1];
         dp[chars.length] = 1;
         for (int i = chars.length - 1; i >= 0; i--) {
             int res = 0;
+
+            // 如当前位置字符是0，代表之前做的决定有问题
             if (chars[i] == '0') {
                 dp[i] = 0;
                 continue;
             }
-            res += dp[i + 1];
+
             //当前数字位1，则有两个分支：1.只把当前数字转换为字母，2.把当前数字和下一位合在一起转换为字母
+            res += dp[i + 1];
             if (chars[i] == '1') {
                 if (i + 1 < chars.length) {
                     res += dp[i + 2];
                 }
             }
+
             //当前数字位2，只有在下一位数字是0~6之间，才有两个分支
             if (chars[i] == '2') {
                 if (i + 1 < chars.length && chars[i + 1] >='0' && chars[i + 1] <= '6') {
                     res += dp[i + 2];
                 }
             }
+
             dp[i] = res;
         }
         return dp[0];

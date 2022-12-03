@@ -50,7 +50,7 @@ public class TreeRecursion06 {
 
     private static class Info {
         private Node maxSubBSTHead; //最大二叉搜索子树头结点
-        private int maxSubBSTSize; //做大二叉搜索子树大小
+        private int maxSubBSTSize; //最大二叉搜索子树大小
         private int max; //子树最大值
         private int min; //子树最小值
     }

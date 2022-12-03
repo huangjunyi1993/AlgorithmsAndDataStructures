@@ -18,6 +18,7 @@ public class TreeRecursion07 {
 
     private static Info process(Node node) {
 
+        // base caes：空树，是满二叉树，是完全二叉树，树高0
         if (node == null) {
             Info info = new Info();
             info.isCBT = true;
@@ -26,14 +27,16 @@ public class TreeRecursion07 {
             return info;
         }
 
+        // 从左右子树收集信息
         Info leftInfo = process(node.left);
         Info rightInfo = process(node.right);
 
-        //通过从左右子树收集回来的信息，计算height和isFull
+        // 根据从左右子树收集回来的信息，计算height和isFull
         Info info = new Info();
         info.height = leftInfo.height + 1 + rightInfo.height;
         info.isFull = leftInfo.isFull && rightInfo.isFull && leftInfo.height == rightInfo.height;
 
+        // 根据从左右子树收集回来的信息，计算isCBT
         if (info.isFull) {
             info.isCBT = true; //满足条件1
         } else {

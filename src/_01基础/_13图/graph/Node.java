@@ -18,10 +18,10 @@ public class Node {
     //出度
     public int out;
 
-    //邻居节点集合
+    //从该节点出发，能找到的邻居节点集合
     public List<Node> nexts;
 
-    //到邻居节点的边的集合
+    //从该节点出发，能到的邻居节点的边的集合
     public List<Edge> edges;
 
     public Node(int value) {

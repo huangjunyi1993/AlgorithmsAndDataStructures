@@ -17,7 +17,7 @@ public class Greed04 {
             q.add(arr[i]);
         }
 
-        int sum = 0;
+        int sum = 0; // 代价
         int cur = 0;
 
         while (q.size() > 1) {

@@ -3,8 +3,9 @@ package _02进阶._24线段树;
 import java.util.*;
 
 /**
- * 给定一个二维数组lines，代表一组线段，有开始和接收两个位置
+ * 给定一个二维数组lines，代表一组线段，有开始和结束两个位置
  * 求该组线段中最大重叠层数
+ *
  * Created by huangjunyi on 2022/9/11.
  */
 public class SegmentTree03 {

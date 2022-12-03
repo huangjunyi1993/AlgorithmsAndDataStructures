@@ -11,6 +11,7 @@ public class TreeRecursion01 {
     }
 
     private static Info process(Node node) {
+        // 1、base case： 空树，高度为0，是平衡
         if (node == null) {
             Info info = new Info();
             info.isBalance = true;
@@ -18,9 +19,11 @@ public class TreeRecursion01 {
             return info;
         }
 
+        // 2、左右递归收集信息
         Info leftInfo = process(node.left);
         Info rightInfo = process(node.right);
 
+        // 3、根据子信息，计算自己的信息
         Info info = new Info();
         //如果左子树是平衡二叉树，并且右子树是平衡二叉树，并且两子树高度差不大于1，则当前子树也是平衡二叉树
         if (leftInfo.isBalance && rightInfo.isBalance && Math.abs(leftInfo.height - rightInfo.height) <= 1) {

@@ -1,6 +1,4 @@
-package _01基础._07计数排序与桶排序;
-
-import java.util.Arrays;
+package _01基础._07前缀树与计数排序与桶排序;
 
 /**
  * 桶排序：计数排序的一种使用
@@ -59,6 +57,11 @@ public class CountSort02 {
         return num - help;
     }
 
+    /**
+     * 计算数组中最大的数的最大位数
+     * @param arr
+     * @return
+     */
     private static int getMaxBit(int[] arr) {
         //找出数组中最大的数
         int max = arr[0];
@@ -66,6 +69,7 @@ public class CountSort02 {
             max = Math.max(arr[i], max);
         }
 
+        // 计算最大位数
         int res = 0;
         while (max != 0) {
             max /= 10;

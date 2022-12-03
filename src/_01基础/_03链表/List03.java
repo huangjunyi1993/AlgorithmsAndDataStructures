@@ -26,8 +26,10 @@ public class List03 {
 
         while (cur != null) {
             if (cur.value == num) {
+                // 如果当前结点的value是要删除的之，则pre的next指针指向cur的next
                 pre.next = cur.next;
             } else {
+                // 否则pre指向cur，下一此循环用
                 pre = cur;
             }
             cur = cur.next;

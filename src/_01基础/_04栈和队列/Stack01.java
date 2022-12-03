@@ -7,7 +7,7 @@ public class Stack01 {
 
     private int[] arr;
 
-    private int size;
+    private int size; // 栈容量
 
     private int index = -1;
 

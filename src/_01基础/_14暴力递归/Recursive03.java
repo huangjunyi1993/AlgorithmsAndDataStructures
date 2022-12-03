@@ -18,16 +18,18 @@ public class Recursive03 {
         int index = 0;
         process(chars, index, set, path);
         List<String> list = new ArrayList<>();
+        // 收集到的所有答案，放到set中去重
         list.addAll(set);
         return list;
     }
 
     private static void process(char[] chars, int index, Set<String> set, String path) {
+        // base case：index越界，遍历完所有字符，收集一个答案
         if (index == chars.length) {
             set.add(path);
             return;
         }
-
+        // 每个位置 要 不要 两个递归
         process(chars, index + 1, set, path);
         process(chars, index + 1, set, path + chars[index]);
 

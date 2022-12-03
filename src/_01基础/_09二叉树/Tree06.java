@@ -11,6 +11,12 @@ public class Tree06 {
         print(n, 1, true);
     }
 
+    /**
+     * 二叉树中序遍历的方式打印折痕
+     * @param n 总共层数（对折次数)
+     * @param curr 当前层数
+     * @param down 是否是凹折痕
+     */
     private static void print(int n, int curr, boolean down) {
         if (curr > n) return;
         print(n, curr + 1, true);

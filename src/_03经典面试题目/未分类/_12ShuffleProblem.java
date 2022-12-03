@@ -54,6 +54,7 @@ public class _12ShuffleProblem {
             rotate(arr, L + half, mid, mid + half);
             // 下标循环迁移
             cycles(arr, L, base - 1, k);
+            L = L + base - 1;
         }
     }
 

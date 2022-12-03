@@ -1,84 +1,52 @@
 package _01基础._06堆与堆排序;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.PriorityQueue;
 
 /**
- * 可动态调整的堆：
- * 当堆中的元素的值发生变化时，可以重新调整该元素在堆中的位置
+ * 线段最大重合问题
+ * 给定很多线段，每个线段都有两个数[start, end]
+ * 表示线段的开始位置和结束位置，左闭右闭区间
+ * 规定：
+ * 1)线段的开始位置和结束位置都是整数值
+ * 2)线段的重合区域必须>=1
+ * 返回线段最多重合区域中，包含了几条线段
+ * Created by huangjunyi on 2022/11/20.
  */
-public class Heap04<T> {
+public class Heap04 {
 
-    private List<T> arr;
-    private Map<T, Integer> indexMap;
-    private int heapSize;
-    private Comparator<T> comparator;
+    private static class Line {
+        int start;
+        int end;
 
-    public Heap04(Comparator<T> comparator) {
-        this.comparator = comparator;
-        this.arr = new ArrayList<>();
-        indexMap = new HashMap<>();
-        this.heapSize = 0;
+        public Line(int start, int end) {
+            this.start = start;
+            this.end = end;
+        }
     }
 
-    public void push(T t) {
-        int size = arr.size();
-        arr.add(t);
-        indexMap.put(t, size);
-        floatUp(size);
-        heapSize++;
-    }
-
-    public T pop() {
-        T res = arr.get(0);
-        swap(0, heapSize - 1);
-        arr.remove(heapSize - 1);
-        indexMap.remove(res);
-        sink(0, --heapSize);
+    public static int maxCover(int[][] m) {
+        if (m == null || m.length < 0) return 0;
+        int N = m.length;
+        // 线段数组
+        Line[] lines = new Line[N];
+        for (int i = 0; i < m.length; i++) {
+            lines[i] = new Line(m[i][0], m[i][1]);
+        }
+        // 按线段的开始位置从小到大排序
+        Arrays.sort(lines, (line1, line2) -> line1.start - line2.start);
+        // 小根堆，存放线段的结束位置
+        PriorityQueue<Integer> heap = new PriorityQueue<>();
+        int res = 0;
+        for (int i = 0; i < lines.length; i++) {
+            Line line = lines[i];
+            // 把小于等于当前线段开始位置的结束位置弹出
+            while (!heap.isEmpty() && heap.peek() <= line.start) heap.poll();
+            heap.add(line.end);
+            // 抓住最大值
+            res = Math.max(res, heap.size());
+        }
         return res;
-    }
-
-    public void resign(T t) {
-        //元素的值发生变化，重新调整该元素在堆中的位置
-        int index = indexMap.get(t);
-        floatUp(index);
-        sink(index, heapSize);
-    }
-
-    private void floatUp(int index) {
-        //堆调整：上浮
-        //while (arr[index] > arr[(index - 1) / 2]) {
-        while (comparator.compare(arr.get(index), arr.get((index - 1) / 2)) > 0) {
-            swap(index, (index - 1) / 2);
-            index = (index - 1) / 2;
-        }
-    }
-
-    private void sink(int index, int heapSize) {
-        //堆调整：下沉
-        int l = index * 2 + 1;
-        int r;
-        int bigSon;
-        //还有左孩子，就继续比较，没有左孩子，就不再比较了
-        while (l < heapSize) {
-            r = index * 2 + 2;
-            //bigSon = r < heapSize && arr[r] > arr[l] ? r : l;
-            bigSon = r < heapSize && comparator.compare(arr.get(r), arr.get(l)) > 0 ? r : l;
-            //if (arr[bigSon] <= arr[index]) break;
-            if (comparator.compare(arr.get(bigSon), arr.get(index)) <= 0) break;
-            swap(index, bigSon);
-            index = bigSon;
-            l = index * 2 + 1;
-        }
-    }
-
-    private void swap(int i, int j) {
-        T t1 = arr.get(i);
-        T t2 = arr.get(j);
-        arr.set(i, t2);
-        arr.set(j, t1);
-        //元素位置互换后，更新元素位置表
-        indexMap.put(t1, j);
-        indexMap.put(t2, i);
     }
 
 }

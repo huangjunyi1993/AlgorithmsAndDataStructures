@@ -84,6 +84,7 @@ public class LinkedList08 {
                 if (curr1 == loop2) return loop1;
                 curr1 = curr1.next;
             }
+            //第三种情况，两链表不相交
             return null;
         }
     }

@@ -51,7 +51,7 @@ public class UnionSet01<T> {
             node = parentMap.get(node);
         }
 
-        //修改沿途的Node的父节点，使得下次findRootNode的代价更小
+        //修改沿途的Node的父节点，使得下次findRootNode的代价更小（扁平化）
         while (!stack.isEmpty()) parentMap.put(stack.pop(), node);
 
         return node;

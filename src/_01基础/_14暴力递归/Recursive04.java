@@ -12,6 +12,7 @@ import java.util.Set;
 public class Recursive04 {
 
     public static List<String> getAllSortedResult(String str) {
+        // set用于收集到的所有答案去重
         Set<String> set = new HashSet<>();
         int i = 0;
         char[] chars = str.toCharArray();
@@ -22,13 +23,16 @@ public class Recursive04 {
     }
 
     private static void process(char[] chars, int index, Set<String> set) {
+        // base case：index越界，收集一个答案
         if (index == chars.length) {
             set.add(String.valueOf(chars));
         }
 
+        // 每个位置index，从index开始，与后面每个位置交换，跑一个递归
         for (int i = index; i < chars.length; i++) {
             swap(chars, index, i);
             process(chars, index + 1, set);
+            // 恢复现场
             swap(chars, index, i);
         }
 

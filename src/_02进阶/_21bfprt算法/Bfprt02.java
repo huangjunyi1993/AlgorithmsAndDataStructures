@@ -14,6 +14,7 @@ package _02进阶._21bfprt算法;
  *      所以至少可以排除3n/10
  *      所以这里的时间复杂度记为T(7n/10)
  * 最后总的时间复杂度为O(n) + T(n/5) + T(7n/10) = O(n)
+ *
  * Created by huangjunyi on 2022/9/9.
  */
 public class Bfprt02 {
@@ -24,8 +25,19 @@ public class Bfprt02 {
 
     private static int bfprt(int[] arr, int l, int r, int index) {
         if (l == r) return arr[l];
-        //按照bfprt的策略挑选一个基准值
+
+
+        /*
+        按照bfprt的策略挑选一个基准值
+        l...r，5个数一组
+        每组排序后取中位数
+        组成新数组
+        返回新数组的中位数pivot
+         */
         int pivot = getPivot(arr, l, r);
+
+        // 下面就和改写快排一样了
+
         //利用荷兰国旗问题进行分区，然后range为等于pivot的区间
         int[] range = partition(arr, l, r, pivot);
         //如果index位于range中间，直接返回arr[index]
@@ -58,11 +70,14 @@ public class Bfprt02 {
     private static int getPivot(int[] arr, int l, int r) {
         int size = r - l + 1;
         int offset = size % 5 == 0 ? 0 : 1;
+        // 计算分组后有多少组，生成一个等长的数组
         int[] mArr = new int[size / 5 + offset];
         for (int i = 0; i < mArr.length; i++) {
+            // 每5个数一组，排序取中位数，放入m数组
             int low = l + i * 5;
             mArr[i] = getMedian(arr, low, Math.min(r, low + 4));
         }
+        // 递归调bfprt，取m数组中位数
         return bfprt(mArr, 0, mArr.length - 1, mArr.length / 2);
     }
 
@@ -74,7 +89,9 @@ public class Bfprt02 {
      * @return
      */
     private static int getMedian(int[] arr, int l, int r) {
+        // 插入排序
         insertSort(arr, l, r);
+        // 取中位数
         return arr[(l + r) / 2];
     }
 

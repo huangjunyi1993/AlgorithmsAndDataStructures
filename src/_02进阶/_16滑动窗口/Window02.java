@@ -14,29 +14,32 @@ public class Window02 {
 
     public static int process(int[] arr, int sum) {
         if (arr == null || arr.length == 0) return 0;
+        // 这里需要同时维护窗口内的最大值和最小值，所以搞两个双端队列
         Deque<Integer> minDeque = new LinkedList<>();
         Deque<Integer> maxDeque = new LinkedList<>();
         int res = 0;
         int l = 0, r = 0;
         while (l < arr.length) {
+
             while (r < arr.length) {
-                //小跟堆记录当前窗口的最小值
+                //minDeque是窗口内最小值的更新结构（里面从小到大），队列头部是当前窗口最小值
                 while (!minDeque.isEmpty() && arr[minDeque.peekLast()] > arr[r]) minDeque.pollLast();
                 minDeque.addLast(arr[r]);
-                //大根堆记录当前窗口的最大值
+                //maxDeque是窗口内最大值的更新结构（里面从大到小），队列头部是当前窗口最大值
                 while (!maxDeque.isEmpty() && arr[maxDeque.peekLast()] < arr[r]) maxDeque.pollLast();
                 maxDeque.addLast(arr[r]);
                 //如果最大值减去最小值超了，最退出当前循环，否则r指针继续往右括
                 if (sum < arr[maxDeque.peekFirst()] - arr[minDeque.peekFirst()]) break;
                 r++;
             }
-            // r-l为当前循环得出的达标子数组的数量，累加到结果中取
+
+            // r-l为当前循环得出的以下标l的数为开头的达标子数组的数量
+            // 累加到结果中取
             res += (r - l);
+
             /*
             l指针往右推一位，继续下一轮循环
             但l++前，要检查两个堆的堆顶是否是l指针指向的下标，是的话要删除
-            对于小顶堆，不存在值为l又不是堆顶的情况，因为不是堆顶代表后面有比它更小的数的下标，如果是这样，那么l在上面就已经弹出了
-            对于大顶堆，不存在值为l又不是堆顶的情况，因为不是堆顶代表后面有比它更大的数的下标，如果是这样，那么l在上面就已经弹出了
              */
             if (l == minDeque.peekFirst()) minDeque.pollFirst();
             if (l == maxDeque.peekFirst()) maxDeque.pollFirst();

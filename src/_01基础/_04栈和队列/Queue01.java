@@ -26,6 +26,7 @@ public class Queue01 {
     public int pull() {
         //size等于0，代表队列已空
         if (size == 0) throw new RuntimeException("queue is empry");
+        size--;
         int element = arr[pullIndex++];
         //如果pullIndex等于limit，从新返回到0
         if (pullIndex == limit) pullIndex = 0;
@@ -35,6 +36,7 @@ public class Queue01 {
     public void push(int num) {
         //size等于limit，代表队列已满
         if (size == limit) throw new RuntimeException("queue is full");
+        size++;
         arr[pushIndex++] =  num;
         //如果pushIndex等于limit，从新返回到0
         if (pushIndex == limit) pushIndex = 0;

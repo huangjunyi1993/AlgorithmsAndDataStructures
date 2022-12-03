@@ -11,6 +11,7 @@ public class TreeRecursion02 {
     }
 
     private static Info process(Node node) {
+        // base case：空树
         if (node == null) {
             Info info = new Info();
             info.height = 0;
@@ -18,6 +19,7 @@ public class TreeRecursion02 {
             return info;
         }
 
+        // 左右递归收集子节点信息
         Info leftInfo = process(node.left);
         Info rightInfo = process(node.right);
 
@@ -30,8 +32,8 @@ public class TreeRecursion02 {
     }
 
     private static class Info {
-        private int height; //高度
-        private int maxDistance; //最大距离
+        private int height; // 树高度
+        private int maxDistance; // 当前树的节点最大距离
     }
 
     private static class Node {

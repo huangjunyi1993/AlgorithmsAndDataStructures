@@ -6,8 +6,12 @@ import java.util.Stack;
 
 /**
  * 给定两颗二叉树，t1和t2，判断在t1中是否包含和t2结构相同的子树
- * 1、把两个数进行先序序列化
+ * 注意：子树是指以某个节点为头，往下包含了所有的子节点，而不是一部分
+ *
+ * 解法：
+ * 1、把两个树进行先序序列化
  * 2、转化为KMP匹配问题
+ *
  * Created by huangjunyi on 2022/9/5.
  */
 public class KMP03 {
@@ -21,14 +25,18 @@ public class KMP03 {
     public static boolean contains(Node head1, Node head2) {
         if (head2 == null) return true;
         if (head1 == null) return false;
-        List<String> list1 = preSerial(head1);
-        List<String> list2 = preSerial(head2);
-        String[] arr = list1.toArray(new String[0]);
-        String[] match = list2.toArray(new String[0]);
+
+        List<String> list1 = preSerial(head1); // 先序序列化树1
+        List<String> list2 = preSerial(head2); // 先序序列化树2
+        String[] arr = list1.toArray(new String[0]); // 转为字符串数组，把数组看成字符串
+        String[] match = list2.toArray(new String[0]); // 匹配串
         if (arr == null || match == null || arr.length < 1 || arr.length < match.length) return false;
-        int[] next = getNext(match);
-        int x = 0;
-        int y = 0;
+
+        int[] next = getNext(match); // 生成next数组
+        int x = 0; // 字符原串指针
+        int y = 0; // 匹配串指针
+
+        // KMP的匹配流程
         while (x < arr.length && y < match.length) {
             if (equals(arr[x], match[y])) {
                 x++;
@@ -39,6 +47,8 @@ public class KMP03 {
                 x++;
             }
         }
+
+        // 如果匹配串指针推到了越界位置，匹配成功，表示str2是str1的旋转数
         return y == match.length;
     }
 

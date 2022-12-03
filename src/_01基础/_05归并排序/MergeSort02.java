@@ -21,7 +21,8 @@ public class MergeSort02 {
             //按步长进行迭代递归
             while (l < arr.length) {
                 int mid = l + ((len >> 1) - 1);
-                if (mid >= arr.length) break;
+                // 只剩下左组，右组一个数都没有，则跳过
+                if (mid >= arr.length - 1) break;
                 int r = Math.min(l + len - 1, arr.length -1);
                 merge(arr, l, mid, r);
                 l = r + 1;
@@ -58,7 +59,7 @@ public class MergeSort02 {
     }
 
     public static void main(String[] args) {
-        int[] arr = {3,5,7,26,7,3,2,45,8};
+        int[] arr = {22453,534,235,5,94,98,4,5,5,4,8,2,2,7575};
         sort(arr);
         System.out.println(Arrays.toString(arr));
     }

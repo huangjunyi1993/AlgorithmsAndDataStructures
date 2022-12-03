@@ -14,6 +14,7 @@ public class TreeRecursion03 {
     private static Info process(Node node) {
         if (node == null) return null;
 
+        // 递归收集左右节点信息
         Info leftInfo = process(node.left);
         Info rightInfo = process(node.right);
 
@@ -48,6 +49,7 @@ public class TreeRecursion03 {
             maxSubAllBSTSize = (leftInfo == null ? 0 : leftInfo.maxSubAllBSTSize) + 1 + (rightInfo == null ? 0 : rightInfo.maxSubAllBSTSize);
         }
 
+        // 整合当前子树信息，返回
         Info info = new Info();
         info.isAllBST = isAllBST;
         info.maxSubAllBSTSize = maxSubAllBSTSize;

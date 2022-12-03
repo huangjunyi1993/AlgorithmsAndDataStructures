@@ -19,6 +19,7 @@ public class TreeRecursion04 {
     }
 
     private static Info process(Employee employee) {
+        // base case：没有子节点，来时最大快乐值是自己的开了值，不来时的最大快乐值则是0
         if (employee.nexts.isEmpty()) {
             Info info = new Info();
             info.maxHappy1 = employee.happy;
@@ -30,11 +31,12 @@ public class TreeRecursion04 {
         int maxHappy2 = 0; //该员工不来，子树的最大快乐值
 
         for (Employee next : employee.nexts) {
-            Info nextInfo = process(next);
+            Info nextInfo = process(next); // 收集所有子节点信息
             maxHappy1 += nextInfo.maxHappy2; //当前员工来，直接下级不能来，当前员工的快乐值+直接下级不来时最大快乐值
             maxHappy2 += Math.max(nextInfo.maxHappy1, nextInfo.maxHappy2); //当前员工不来，则取直接下级来时和不来的最大快乐值中的最大值
         }
 
+        // 整合当前节点信息返回
         Info info = new Info();
         info.maxHappy1 = maxHappy1;
         info.maxHappy2 = maxHappy2;

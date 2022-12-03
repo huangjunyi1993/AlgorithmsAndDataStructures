@@ -13,8 +13,11 @@ import java.util.*;
 public class Graph04 {
 
     public static List<Node> sort(Graph graph) {
+        // 入度表 节点=>剩余入度
         Map<Node, Integer> inMap = new HashMap<>();
+        // 剩余入度为0的节点，会入这个队列
         Queue<Node> zeroInQueue = new LinkedList<>();
+        // 初始化zeroInQueue，入度为0的点入队列
         for (Node node : graph.nodes.values()) {
             inMap.put(node, node.in);
             if (node.in == 0) {
@@ -25,10 +28,13 @@ public class Graph04 {
         List<Node> result = new ArrayList<>();
 
         while (!zeroInQueue.isEmpty()) {
+            // 弹出zeroInQueue的一个节点，放入结果
             Node curr = zeroInQueue.poll();
             result.add(curr);
+            // 把当前节点的邻居节点的入度-1
             for (Node next : curr.nexts) {
                 inMap.put(next, inMap.get(next) - 1);
+                // 如果节点入度减到0，入队列
                 if (inMap.get(next) == 0) {
                     zeroInQueue.offer(next);
                 }

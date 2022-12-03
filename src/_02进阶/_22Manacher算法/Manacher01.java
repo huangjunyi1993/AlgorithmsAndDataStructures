@@ -10,7 +10,7 @@ public class Manacher01 {
 
     public static int getMaxSubPalindromeString(String str) {
         if (str == null || str.length() == 0) return 0;
-        int r = -1; // 最大回文右边界，但是这里代表的时扩失败的位置
+        int r = -1; // 最大回文右边界，但是这里代表的是扩失败的位置
         int c = -1; // 最大回文中心点
         /*
         添加代表虚轴的分割符#，返回处理串
@@ -27,7 +27,7 @@ public class Manacher01 {
             rArr[2 * c - i]取得i`的回文半径
              */
             rArr[i] = r > i ? Math.min(rArr[2 * c - i], r - i) : 1;
-            // 如果i`的回文区域与L压线，则i还可以尝试扩
+            // 如果i`的回文区域与L压线，则i还可以尝试扩，如果是不需要尝试扩的情况，也会马上break
             while (i + rArr[i] < chars.length && i - rArr[i] > -1) {
                 if (chars[i + rArr[i]] == chars[i - rArr[i]]) rArr[i]++;
                 else break;
@@ -36,6 +36,7 @@ public class Manacher01 {
                 r = i + rArr[i]; // 更新最大回文右边界
                 c = i; // 更新最大回文中心点
             }
+            // 每一步的回文半径，和当前的max PK一下
             max = Math.max(max, rArr[i]);
         }
         // 最大的回文半径-1，就是原串中最长回文串长度

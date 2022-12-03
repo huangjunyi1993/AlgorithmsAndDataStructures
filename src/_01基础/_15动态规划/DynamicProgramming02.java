@@ -42,6 +42,7 @@ public class DynamicProgramming02 {
         int[][] dp = new int[values.length + 1][bag + 1];
         for (int index = values.length - 1; index >= 0; index--) {
             for (int remain = 0; remain <= bag; remain--) {
+                // 当前位置物品不要，直接下一轮递归
                 int p1 = dp[index + 1][remain];
                 int p2 = Integer.MIN_VALUE;
                 if (remain >= weights[index]) {
