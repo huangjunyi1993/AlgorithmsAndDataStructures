@@ -70,55 +70,71 @@ public class _130二维区域和检索_可变 {
 
     }
 
-    /**
-     * 线段树，一位数组更新和区间范围查询都是O(logN)的数据结构
-     *
-     * 原理：
-     * 0位置不用，从1位置开始
-     * 奇数位置只存自己的值
-     * 偶数位则有讲究
-     * 2 -> 1~2
-     * 4 -> 1~4
-     * 6 -> 5~6
-     * 8 -> 1~8
-     * 间隔大的覆盖间隔小的，
-     * 例如1~4,5~8为2个4的间隔，1~8是1个8的间隔，那么8位置存1~8的值，因为8间隔更大
-     * 16间隔，32间隔也是如此，在一个位置上凑齐了一个间隔，就存这个间隔间的数的和，凑齐多个间隔去较大的
-     * 存储计算：
-     * 取该位置的二进制的值a，去掉最右侧1后得b，累加b~a的值，就是该位置要存的值
-     * 前缀和查询计算：
-     * 取该位置的二进制的值a，去掉最右侧1后得b，累加b~a的值
-     * 然后b去掉最右侧的1，得c，累加c~b的值，依次类推，直至为0，累加的值就是该位置的前缀和
-     * 区间范围查询：
-     * 两个前缀和相减
-     * 更新计算：
-     * 目标位置为a，那么更新a位置，然后a加一个自己最右侧的1，得b，更新b位置的值，然后b也如此计算，更新，直至越界
-     */
-    class IndexTree {
-        int[] tree;
-        int N;
+}
 
-        public IndexTree(int size) {
-            this.N = size;
-            this.tree = new int[N + 1];
+/**
+ * IndexTree 树状数组，更新和区间范围查询都是O(logN)的数据结构
+ * 一维IndexTree
+ *
+ * 原理：
+ * 0位置不用，从1位置开始
+ * 奇数位置只存自己的值
+ * 偶数位则有讲究
+ * 2 -> 1~2
+ * 4 -> 1~4
+ * 6 -> 5~6
+ * 8 -> 1~8
+ * 间隔大的覆盖间隔小的，
+ * 例如1~4,5~8为2个4的间隔，1~8是1个8的间隔，那么8位置存1~8的值，因为8间隔更大
+ * 16间隔，32间隔也是如此，在一个位置上凑齐了一个间隔，就存这个间隔间的数的和，凑齐多个间隔去较大的
+ *
+ * 存储计算：
+ * 取该位置的二进制的值a，去掉最右侧1后得b，然后b+1得c，累加c~a的值，就是该位置要存的值
+ *
+ * 前缀和查询计算：
+ * 取该位置的二进制的值a，累加help[a]
+ * 然后a的二进制最右侧1去掉，得b，累加help[b]
+ * 然后b的二进制最右侧1去掉，得c，累加help[c]
+ * 以此类推，直至到0
+ *
+ * 区间范围查询：
+ * 两个前缀和相减
+ *
+ * 更新计算：
+ * 目标位置为a，
+ * 那么更新a位置，
+ * 然后a加一个自己最右侧的1，得b，更新b位置的值，
+ * 然后b加一个自己最右侧的1，得c，更新c位置的值
+ * 依次类推，直至越界
+ */
+class IndexTree {
+    int[] tree;
+    int N;
+
+    public IndexTree(int size) {
+        this.N = size;
+        // 0位置不用，所以准备长度加1的长度
+        this.tree = new int[N + 1];
+    }
+
+    // IndexTree前缀和查询
+    public int sum(int index) {
+        int res = 0;
+        while (index > 0) { // 直至到0
+            res += tree[index];
+            // 进制最右侧1去掉
+            index -= index & -index;
         }
+        return res;
+    }
 
-        public int sum(int index) {
-            int res = 0;
-            while (index > 0) {
-                res += tree[index];
-                index -= index & -index;
-            }
-            return res;
+    // IndexTree单点增加操作
+    public void add(int index, int d) {
+        while (index <=  N) { // 直至越界
+            tree[index] += d;
+            // 加一个自己最右侧的1
+            index += index & -index;
         }
-
-        public void add(int index, int d) {
-            while (index <=  N) {
-                tree[index] += d;
-                index += index & - index;
-            }
-        }
-
     }
 
 }

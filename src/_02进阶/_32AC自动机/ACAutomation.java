@@ -12,10 +12,10 @@ import java.util.Queue;
 public class ACAutomation {
 
     private static class Node {
-        private String end;
-        private boolean visited;
-        private Node fail;
-        private Node[] nexts;
+        private String end; // 如果这个结点是某个字符串的结尾，则end不为null
+        private boolean visited; // 访问到end不为null，收集答案后，下次再到这个结点，visited就为true，就不重复收集了
+        private Node fail; // fail指针
+        private Node[] nexts; // 路径数组
 
         public Node() {
             end = null;
@@ -36,6 +36,7 @@ public class ACAutomation {
         char[] chars = str.toCharArray();
         Node cur = this.root;
         for (int i = 0; i < chars.length; i++) {
+            // 没路就新建，有路就复用
             int index = chars[i] - 'a';
             if (cur.nexts[index] == null) {
                 cur.nexts[index] = new Node();
@@ -55,9 +56,11 @@ public class ACAutomation {
         while (!queue.isEmpty()) {
             //弹出当前节点，为当前节点的每个子结点设置fail指针
             cur = queue.poll();
+            //遍历每个子节点，为它们设置fail指针
             for (int i = 0; i < cur.nexts.length; i++) {
                 Node next = cur.nexts[i];
                 if (next == null) continue;
+                //当前父节点的fail指针
                 curFail = cur.fail;
                 //如果当前fail指针没有走向i的路，继续找，要么找到，要么一直到null
                 while (curFail != null && curFail.nexts[i] == null) {
@@ -67,6 +70,7 @@ public class ACAutomation {
                 if (curFail == null) {
                     next.fail = this.root;
                 } else {
+                    // 子节点的fail指针，指向curFail指向节点i路上的节点
                     next.fail = curFail.nexts[i];
                 }
                 queue.add(next);
@@ -80,14 +84,17 @@ public class ACAutomation {
         Node cur = this.root;
         for (int i = 0; i < chars.length; i++) {
             int path = chars[i] - 'a';
+            // 没有路，沿着fail指针找路
             while (cur.nexts[path] == null && cur != this.root) cur = cur.fail;
             //找到路了，cur要往前推进，没有则回到root节点
             cur = cur.nexts[path] != null ? cur.nexts[path] : this.root;
             //用follow指针遍历从cur开始沿着fail指针走到root的路径，收集答案
             Node follow = cur;
             while (follow != this.root) {
+                // 看过了，不再看了
                 if (follow.visited) break;
                 if (follow.end != null) {
+                    // 标记看过了
                     res.add(follow.end);
                     follow.visited = true;
                 }

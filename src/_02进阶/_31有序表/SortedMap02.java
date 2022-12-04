@@ -1,7 +1,7 @@
 package _02进阶._31有序表;
 
 /**
- *给定一个数组arr，一个整数k表示窗口大小，返回每个窗口的中位数
+ * 给定一个数组arr，一个整数k表示窗口大小，窗口不断往右滑动，返回每个窗口的中位数
  * Created by huangjunyi on 2022/9/17.
  */
 public class SortedMap02 {
@@ -41,10 +41,10 @@ public class SortedMap02 {
 
     public static double[] medianSlidingWindow(int[] arr, int k) {
         if (arr == null || arr.length < k) return null;
-        /*
-        通过改写有序表，记录窗口中结点的排序
-         */
+        // 通过改写有序表，记录窗口中结点的排序，
+        // 改写后的有序表，支持根据排序后的下标取值
         SizeBalancedTreeSet<Node> set = new SizeBalancedTreeSet<>();
+        // 先把前k-1个放入窗口
         for (int i = 0; i < k - 1; i++) {
             set.add(new Node(i, arr[i]));
         }
@@ -53,9 +53,11 @@ public class SortedMap02 {
         for (int i = k - 1; i < arr.length; i++) {
             set.add(new Node(i, arr[i]));
             /*
-            取出当前有序表中的排在中间的结点，该节点的值最为当前窗口的中位数，如果是偶数个数，则取上下中位数两个节点，然后相加除2
+            取出当前有序表中的排在中间的结点，该节点的值最为当前窗口的中位数，
+            如果是偶数个数，则取上下中位数两个节点，然后相加除2
              */
             if (set.size() % 2 == 0) {
+                // 改写有序表后增加的方法 getIndex：根据排序后的下标取值
                 int v1 = set.getIndex(set.size() / 2 - 1).value;
                 int v2 = set.getIndex(set.size() / 2).value;
                 res[index++] = ((double) v1 + (double) v2) / 2;

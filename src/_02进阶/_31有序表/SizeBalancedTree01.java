@@ -13,7 +13,7 @@ public class SizeBalancedTree01<K extends Comparable<K>, V> {
         private SizeBalancedTreeNode<K, V> left;
         private SizeBalancedTreeNode<K, V> right;
         private int size; //当前节点为头节点的子树的不同节点的个数
-        private int all; //当前节点为头节点的子树的节点个数
+        private int all; //当前节点为头节点的子树的所有节点的个数
 
         public SizeBalancedTreeNode(K key, V value) {
             this.key = key;
@@ -29,10 +29,11 @@ public class SizeBalancedTree01<K extends Comparable<K>, V> {
         if (key == null) return;
         SizeBalancedTreeNode<K, V> node = findLastIndex(key);
         if (node != null && node.key.compareTo(key) == 0) {
-            node.value = value;
-            node.all++;
+            this.root = add(this.root, key, value, true);
         }
-        else this.root = add(this.root, key, value);
+        else {
+            this.root = add(this.root, key, value, false);
+        }
     }
 
     /**
@@ -42,15 +43,19 @@ public class SizeBalancedTree01<K extends Comparable<K>, V> {
      */
     public int countLessKey(K key) {
         SizeBalancedTreeNode<K, V> cur = this.root;
-        int res = 0;
+        int res = 0; // 小于key的节点的个数
+        // 从头节点一路滑下去，沿途收集答案
         while (cur != null) {
             if (cur.key.compareTo(key) > 0) {
+                // 往左滑，不累加
                 cur = cur.left;
             }
             else if (cur.key.compareTo(key) == 0) {
+                // 等于key，累加左边的所有节点数
                 res += cur.left != null ? cur.left.all : 0;
                 break;
             } else {
+                // 往右滑，累加当前树减去右子树后的所有节点数
                 res += cur.all - (cur.right != null ? cur.right.all : 0);
                 cur = cur.right;
             }
@@ -58,57 +63,59 @@ public class SizeBalancedTree01<K extends Comparable<K>, V> {
         return res;
     }
 
-    private SizeBalancedTreeNode<K, V> add(SizeBalancedTreeNode<K, V> cur, K key, V value) {
+    private SizeBalancedTreeNode<K, V> add(SizeBalancedTreeNode<K, V> cur, K key, V value, boolean contains) {
         if (cur == null) {
             return new SizeBalancedTreeNode<>(key, value);
         }
-        if (key.compareTo(cur.key) < 0) {
-            cur.left = add(cur.left, key, value);
-        } else {
-            cur.right = add(cur.right, key, value);
-        }
-        cur.size++;
         cur.all++;
+        if (key.compareTo(cur.key) < 0) {
+            cur.left = add(cur.left, key, value, true);
+        } else if (key.compareTo(cur.key) > 0){
+            cur.right = add(cur.right, key, value, true);
+        } else { // 添加了重复key，all++后直接返回，不用做平衡性调整
+            return cur;
+        }
+        if (!contains) cur.size++; // 不是添加重复key，size++
         return maintain(cur);
     }
 
-    public void remove(K key) {
-        if (key == null) return;
-        SizeBalancedTreeNode<K, V> node = getNode(key);
-        if (node != null && node.all > 1) {
-            node.all--;
-            return;
-        }
-        this.root = delete(this.root, key);
-    }
-
-    private SizeBalancedTreeNode<K, V> delete(SizeBalancedTreeNode<K, V> cur, K key) {
-        if (cur == null) return null;
-        cur.size--;
-        cur.all--;
-        if (key.compareTo(cur.key) < 0) {
-            cur.left = delete(cur.left, key);
-        } else if (key.compareTo(cur.key) > 0) {
-            cur.right = delete(cur.right, key);
-        } else {
-            if (cur.left == null && cur.right == null) {
-                cur = null;
-            } else if (cur.left != null && cur.right == null) {
-                cur = cur.left;
-            } else if (cur.left == null && cur.right != null) {
-                cur = cur.right;
-            } else {
-                SizeBalancedTreeNode<K, V> successor = cur.right;
-                while (successor.left != null) successor = successor.left;
-                cur.right = delete(cur.right, successor.key);
-                successor.left = cur.left;
-                successor.right = cur.right;
-                successor.size = cur.size;
-                cur = successor;
-            }
-        }
-        return cur;
-    }
+//    public void remove(K key) {
+//        if (key == null) return;
+//        SizeBalancedTreeNode<K, V> node = getNode(key);
+//        if (node != null && node.all > 1) {
+//            node.all--;
+//            return;
+//        }
+//        this.root = delete(this.root, key);
+//    }
+//
+//    private SizeBalancedTreeNode<K, V> delete(SizeBalancedTreeNode<K, V> cur, K key) {
+//        if (cur == null) return null;
+//        cur.size--;
+//        cur.all--;
+//        if (key.compareTo(cur.key) < 0) {
+//            cur.left = delete(cur.left, key);
+//        } else if (key.compareTo(cur.key) > 0) {
+//            cur.right = delete(cur.right, key);
+//        } else {
+//            if (cur.left == null && cur.right == null) {
+//                cur = null;
+//            } else if (cur.left != null && cur.right == null) {
+//                cur = cur.left;
+//            } else if (cur.left == null && cur.right != null) {
+//                cur = cur.right;
+//            } else {
+//                SizeBalancedTreeNode<K, V> successor = cur.right;
+//                while (successor.left != null) successor = successor.left;
+//                cur.right = delete(cur.right, successor.key);
+//                successor.left = cur.left;
+//                successor.right = cur.right;
+//                successor.size = cur.size;
+//                cur = successor;
+//            }
+//        }
+//        return cur;
+//    }
 
     public V get(K key) {
         SizeBalancedTreeNode<K, V> node = getNode(key);
@@ -155,22 +162,32 @@ public class SizeBalancedTree01<K extends Comparable<K>, V> {
         return cur;
     }
 
-    private SizeBalancedTreeNode<K, V> leftRotate(SizeBalancedTreeNode<K, V> cur) {
-        SizeBalancedTreeNode<K, V> right = cur.right;
-        cur.right = right.left;
-        right.left = cur;
-        right.size = cur.size;
+    private SizeBalancedTreeNode rightRotate(SizeBalancedTreeNode cur) {
+        int same = cur.all - (cur.left != null ? cur.left.all : 0) - (cur.right != null ? cur.right.all : 0);
+        SizeBalancedTreeNode leftNode = cur.left;
+        cur.left = leftNode.right;
+        leftNode.right = cur;
+        // size平衡因子调整
+        leftNode.size = cur.size;
         cur.size = (cur.left != null ? cur.left.size : 0) + (cur.right != null ? cur.right.size : 0) + 1;
-        return right;
+        // all也要调整
+        leftNode.all = cur.all;
+        cur.all = (cur.left != null ? cur.left.all : 0) + (cur.right != null ? cur.right.all : 0) + same;
+        return leftNode;
     }
 
-    private SizeBalancedTreeNode<K, V> rightRotate(SizeBalancedTreeNode<K, V> cur) {
-        SizeBalancedTreeNode<K, V> left = cur.left;
-        cur.left = left.right;
-        left.right = cur;
-        left.size = cur.size;
+    private SizeBalancedTreeNode leftRotate(SizeBalancedTreeNode cur) {
+        int same = cur.all - (cur.left != null ? cur.left.all : 0) - (cur.right != null ? cur.right.all : 0);
+        SizeBalancedTreeNode rightNode = cur.right;
+        cur.right = rightNode.left;
+        rightNode.left = cur;
+        // size平衡因子调整
+        rightNode.size = cur.size;
         cur.size = (cur.left != null ? cur.left.size : 0) + (cur.right != null ? cur.right.size : 0) + 1;
-        return left;
+        // all也要调整
+        rightNode.all = cur.all;
+        cur.all = (cur.left != null ? cur.left.all : 0) + (cur.right != null ? cur.right.all : 0) + same;
+        return rightNode;
     }
 
     private SizeBalancedTreeNode<K, V> findLastIndex(K key) {
