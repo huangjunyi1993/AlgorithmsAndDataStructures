@@ -34,21 +34,23 @@ public class _39RemoveBoxes {
      * @return
      */
     private int process(int[] boxes, int L, int R, int K, int[][][] dp) {
+        // base case：L > R，返回0
         if (L > R) return 0;
         if (dp[L][R][K] != 0) return dp[L][R][K];
-        if (L == R) {
-            dp[L][R][K] = (K + 1) * (K + 1);
-            return dp[L][R][K];
+        // 优化，前面相同的的都不用试，连成一片
+        int last = L;
+        int pre = K; // K要用于记录缓存，所以不能修改，另起一个变量记录
+        while (last + 1 <= R && boxes[L] == boxes[last + 1]) {
+            last++;
+            pre++;
         }
-        while (L < R && boxes[L] == boxes[L + 1]) {
-            L++;
-            K++;
-        }
-        int res = (K + 1) * (K + 1) + process(boxes, L + 1, R, 0, dp);
-        // 没去可以跟着前的K个boxes[L]连成一片一起消掉的情况
-        for (int M = L + 1; M <= R; M++) {
-            if (boxes[L] == boxes[M]) {
-                res = Math.max(res, process(boxes, L + 1, M - 1, 0, dp) + process(boxes, M, R, K + 1, dp));
+        // 前pre个跟last一起消掉了，pre清零， 剩下的后面调递归
+        int res = (pre + 1) * (pre + 1) + process(boxes, last + 1, R, 0, dp);
+        // 枚举可以跟着前的pre+1个boxes[L]连成一片一起消掉的情况，last + 1是不符合的，跳过
+        for (int M = last + 2; M <= R; M++) {
+            // 第一个第一个符合的情况就可以了，后面的会在后续递归连上
+            if (boxes[L] == boxes[M] && boxes[M - 1] != boxes[L]) {
+                res = Math.max(res, process(boxes, last + 1, M - 1, 0, dp) + process(boxes, M, R, pre + 1, dp));
             }
         }
         dp[L][R][K] = res;

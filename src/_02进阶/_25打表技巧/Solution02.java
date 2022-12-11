@@ -13,18 +13,25 @@ public class Solution02 {
 
     public static String winner1(int n) {
         /*
+        base case
         后 先 后 先 先
         0  1  2  3  4
          */
         if (n < 5) {
            return n ==0 || n == 2 ? "后手" : "先手";
         }
+
         int base = 1;
         while (base <= n) {
-            //n减去base，再递归调winner函数，如果返回后手赢，则当前函数返回先手赢，因为吃掉base份草后，当前玩家变后手
+            // n减去base，再递归调winner函数，
+            // 如果返回后手赢，则当前函数返回先手赢，
+            // 因为吃掉base份草后，当前玩家变后手
             if (winner1(n - base).equals("后手")) return "先手";
             if (base > n / 4) break;
-            base *= 4;
+            // 每一轮能吃的草量是4的某次方，乘一个4
+            // 但是要做防溢出处理
+            if (base <= n/4)base *= 4;
+            else break;
         }
         return "后手";
     }

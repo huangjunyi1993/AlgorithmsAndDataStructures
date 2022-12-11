@@ -16,12 +16,21 @@ public class Solution03 {
      * @return
      */
     public static boolean isMSum1(int n) {
-        for (int i = 1; i < n; i++) {
-            int sum = i;
-            for (int j = i + 1; j < n; j++) {
-                if (sum + j == n) return true;
-                if (sum + j > n) break;
-                sum += j;
+        // 1 + 2 + 3 + 4 + ...
+        // 2 + 3 + 4 + ...
+        // 3 + 4 + ....
+        // 遍历开头的那个数
+        for (int start = 1; start < n; start++) {
+            // sum一开始为开头数
+            int sum = start;
+            // 一直加一个往后的连续数
+            for (int num = start + 1; num < n; num++) {
+                // 能加到n
+                if (sum + num == n) return true;
+                // 加超了
+                if (sum + num > n) break;
+                // 加
+                sum += num;
             }
         }
         return false;
@@ -45,6 +54,16 @@ public class Solution03 {
      */
     public static boolean isMSum2(int n) {
         if (n < 3) return false;
+        /*
+        如果一个数的二进制形式只有一个1，就是2的某次方
+        那么与上自己减一后的值，会变成0
+        如果与上自己减一后的值，不是0，那么就不是2的某次方
+
+        获取可以提取二进制最右侧的1，看是否和自己相等
+        相等的话就是2的某次方
+         */
+        // if ((n & (-n)) == n) return true;
+
         if ((n & (n - 1)) != 0) return true;
         return false;
     }

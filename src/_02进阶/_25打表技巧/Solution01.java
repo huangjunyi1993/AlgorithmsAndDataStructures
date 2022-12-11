@@ -15,18 +15,19 @@ public class Solution01 {
      */
     public static void printAllResult() {
         for (int i = 0; i <= 100; i++) {
-            int a = i / 8;
-            int b = i % 8;
-            if (b == 0) {
+            int a = i / 8; // 8号代个数
+            int b = i % 8; // 剩余苹果数
+            if (b == 0) { // 苹果剩余0个（正好用8号袋全部装下）？
                 //System.out.println(i + "  " + a + "  " + 0 + "  " + a);
                 System.out.println(i + " " + a);
                 continue;
             }
-            if (b == 6) {
+            if (b == 6) { // 正好剩下6个？
                 System.out.println(i + " " + (a + 1));
                 continue;
             }
             boolean flag = true;
+            // 1个8号袋分出去，2个8号袋分出去，......直到刚好能被6号袋分摊
             for (int j = 1; j <= a; j++) {
                 if (((j * 8) + i % 8) % 6 == 0) {
                     System.out.println(i + " " + ((a - j) + ((j * 8) + i % 8) / 6));
@@ -119,7 +120,8 @@ public class Solution01 {
         根据打表返回的数列，找出规律，按规律分情况返回结果
          */
         if (apple < 0) return -1;
-        if ((apple & 1) != 0) return -1;
+        if ((apple & 1) != 0) return -1; // 奇数返回-1
+        // 单独枚举的数
         if (apple < 18) {
             switch (apple) {
                 case 0: return 0;
@@ -131,7 +133,7 @@ public class Solution01 {
                 default: return -1;
             }
         }
-        return (apple - 18) / 8 + 3;
+        return (apple - 18) / 8 + 3; // 从18开始, 偶数返回组号+3
     }
 
     public static void main(String[] args) {

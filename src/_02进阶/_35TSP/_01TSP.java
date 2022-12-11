@@ -47,20 +47,34 @@ public class _01TSP {
      * @return 走过的路的距离
      */
     private static int process(int[][] matrix, int[] citys, int start, int home) {
+        // 计算还有多少城市要去
         int cityNum = 0;
         for (int i = 0; i < citys.length; i++) {
             cityNum += citys[i] == 1 ? 1 : 0;
         }
+        // 剩一座了，那就是当前这座城市，
+        // 因为在去往下一座城市时，才把当前城市标为已去过，
+        // 而现在刚到，还没有吧当前这座城市标记为已去过，
+        // 所以剩一座没去，那么就是现在这座，
+        // 那么剩下的路就是回老家了
         if (cityNum == 1) {
             return matrix[start][home];
         }
+        // 枚举每个剩下没去的城市（除了老家以外），抓出最小答案
         int min = Integer.MAX_VALUE;
         citys[start] = 0;
         for (int i = 0; i < citys.length; i++) {
-            if (citys[i] == 1 && i != start) {
+            if (citys[i] == 1) {
+                /*
+                matrix[start][i] + process(matrix, citys, i, home)
+                matrix[start][i] 从当前城市start，到下一座城市i，走的距离
+                process(matrix, citys, i, home) 从下一座城市i出发，走完剩下的距离，走过的距离
+                然后跟之前的最小值min PK一下
+                 */
                 min = Math.min(min, matrix[start][i] + process(matrix, citys, i, home));
             }
         }
+        // 深度遍历恢复现场
         citys[start] = 1;
         return min;
     }

@@ -50,7 +50,7 @@ public class _04TSP {
                         int curCitys = citys & (~(1 << start));
 
                         for (int i = 0; i < matrix.length; i++) {
-                            if ((curCitys & (1 << i)) != 0 && i != start) {
+                            if ((curCitys & (1 << i)) != 0) {
                                 min = Math.min(min, matrix[start][i] + dp[curCitys][i]);
                             }
                         }

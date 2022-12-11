@@ -17,17 +17,22 @@ public class _020MinMoneyThroughAllMonster {
 
     /**
      * 第一种解法 递归
-     * @param d 怪兽的能力
-     * @param p 怪兽要求的钱
+     * 当前能力是ability，来到了index号怪兽，通关后续所有怪兽，至少需要多少钱
+     * @param d 怪兽能力数组
+     * @param p 怪兽要求的钱数组
      * @param ability 当前能力值
-     * @param index 怪兽下标
+     * @param index 当前怪兽的下标
      * @return
      */
     public static int process(int[] d, int[] p, int ability, int index) {
+        // base case，彻底通关了，需要0块钱
         if (index == d.length) return 0;
+        // 能力不够，只能花钱贿赂
         if (ability < d[index]) {
             return p[index] + process(d, p, ability + d[index], index + 1);
-        } else {
+        }
+        // 能力够，花钱、不花钱，递归尝试，取最小值
+        else {
             return Math.min(p[index] + process(d, p, ability + d[index], index + 1),
                     process(d, p, ability, index + 1));
         }
@@ -35,6 +40,8 @@ public class _020MinMoneyThroughAllMonster {
 
     public static int dp(int[] d,int[] p) {
         if (d == null || p == null || d.length == 0 || p.length == 0 || d.length != p.length) return 0;
+
+        // 累加所有的钱，最大钱数
         int money = 0;
         for (int i = 0; i < p.length; i++) {
             money += p[i];
@@ -42,7 +49,7 @@ public class _020MinMoneyThroughAllMonster {
 
         /*
         dp表
-        dp[i][j] 表示通过从0~i号怪兽，是否内严格花掉j块钱，
+        dp[i][j] 表示通过从0~i号怪兽，是否能严格花掉j块钱，
         能的话填上获得的最大能力值
         不能则填-1
          */
@@ -67,7 +74,7 @@ public class _020MinMoneyThroughAllMonster {
             }
         }
 
-        //遍历dp表的最后一行，有不为-1的，就是通关所有怪兽花掉最少的钱
+        //遍历dp表的最后一行，最早不为-1的，这个列代表的钱数，就是通关所有怪兽花掉最少的钱
         for (int i = 0; i <= money; i++) {
             if (dp[d.length - 1][i] != -1) return i;
         }

@@ -26,7 +26,7 @@ public class _02SubsquenceMaxModM {
         process(arr, mid + 1, 0, arr.length - 1, m, treeSet2);
         int res = 0;
         for (Integer leftMode : treeSet1) {
-            res = Math.max(res, treeSet2.floor(m - 1 - leftMode));
+            res = Math.max(res, leftMode + treeSet2.floor(m - 1 - leftMode));
         }
         return res;
     }

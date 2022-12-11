@@ -72,7 +72,7 @@ public class _03TSP {
         // 把citys中start对应的状态位修改为0，表示start已经去过了，即将去往下一城市
         citys &= (~(1 << start));
         for (int i = 0; i < matrix.length; i++) {
-            if ((citys & (1 << i)) != 0 && i != start) {
+            if ((citys & (1 << i)) != 0) {
                 min = Math.min(min, matrix[start][i] + process(matrix, citys, i, home, dp));
             }
         }

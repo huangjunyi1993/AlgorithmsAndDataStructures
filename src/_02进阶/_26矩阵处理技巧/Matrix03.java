@@ -8,6 +8,9 @@ public class Matrix03 {
 
     public static void rotate(int[][] matrix) {
         /*
+        矩阵分圈，一圈一圈旋转，圈与圈之间是互不影响的
+        圈内分组，每组就是4个点，循环交换位置
+
             x ➡
            y
            ⬇

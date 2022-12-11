@@ -5,12 +5,15 @@ package _03经典面试题目.动态规划;
  */
 public class _36BurstBalloons {
 
+    /**
+     * 暴力递归
+     */
     public static int maxCoins1(int[] arr) {
         if (arr == null || arr.length == 0) return 0;
         if (arr.length == 1) return arr[0];
         /*
         copy一个长度加2的数组，左右两边补1，保证左右两边有不被打爆的气球
-        任何求中间范围的最大值
+        然后求中间范围的最大值
          */
         int[] newArr = new int[arr.length + 2];
         newArr[0] = 1;
@@ -21,25 +24,35 @@ public class _36BurstBalloons {
         return process1(arr, 1, newArr.length-2);
     }
 
+    /**
+     * 暴力递归
+     */
     private static int process1(int[] arr, int L, int R) {
+        // base case L~R范围内只剩一个气球没爆
         if (L == R) return arr[L - 1] * arr[L] * arr[R + 1];
-        /*
-        枚举每一个位置最后被打爆
-        然后递归
-         */
+
+        // 先单独枚举 最左侧气球最后打爆，最右侧气球最后打爆，求最大得分
         int max = Math.max(
                 arr[L - 1] * arr[L] * arr[R + 1] + process1(arr, L + 1, R),
                 arr[L - 1] * arr[R] * arr[R + 1] + process1(arr, L, R - 1)
         );
+
+        /*
+        枚举中间每一个位置，作为最后被打爆的气球
+        然后递归
+        抓出最大值
+         */
         for (int i = L + 1; i < R; i++) {
-            max = Math.max(max,
-                    arr[L - 1] * arr[i] * arr[R + 1]
+            max = Math.max(max, arr[L - 1] * arr[i] * arr[R + 1]
                             + process1(arr, L, i - 1)
                             + process1(arr, i + 1, R));
         }
         return max;
     }
 
+    /**
+     * 改成记忆化搜索的版本
+     */
     public static int maxCoins2(int[] arr) {
         if (arr == null || arr.length == 0) return 0;
         if (arr.length == 1) return arr[0];
@@ -55,11 +68,6 @@ public class _36BurstBalloons {
 
     /**
      * 改成记忆化搜索的版本
-     * @param arr
-     * @param L
-     * @param R
-     * @param dp
-     * @return
      */
     private static int process2(int[] arr, int L, int R, int[][] dp) {
         if (dp[L][R] != 0) return dp[L][R];

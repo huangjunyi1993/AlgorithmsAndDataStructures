@@ -78,10 +78,11 @@ public class CreateMaximumNumber {
         int[] res = new int[k];
         int[][] dp1 = getdp(nums1);
         int[][] dp2 = getdp(nums2);
+        // get1是从nums1中拿get1个数
         // 这里要处理边界条件，因为nums1或者nums2可能不够k个数
         for (int get1 = Math.max(0, k - N2); get1 <= Math.min(k, N1); get1++) {
-            int[] pick1 = maxPick(nums1, dp1, get1);
-            int[] pick2 = maxPick(nums2, dp2, k - get1);
+            int[] pick1 = maxPick(nums1, dp1, get1); // nums1拿get1个最大的数
+            int[] pick2 = maxPick(nums2, dp2, k - get1); // nums2中拿k-get1个最大的数
             int[] merge = mergeBySuffixArray(pick1, pick2);
             res = moreThan(res, merge) ? res : merge;
         }
