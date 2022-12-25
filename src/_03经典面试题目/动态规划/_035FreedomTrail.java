@@ -26,7 +26,7 @@ import java.util.Map;
  *
  * Created by huangjunyi on 2022/10/9.
  */
-public class _35FreedomTrail {
+public class _035FreedomTrail {
 
     public static int findRotateSteps1(String ring, String key) {
         char[] chsR = ring.toCharArray();

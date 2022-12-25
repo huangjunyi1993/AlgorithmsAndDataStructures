@@ -12,7 +12,7 @@ package _03经典面试题目.动态规划;
  *
  * Created by huangjunyi on 2022/10/9.
  */
-public class _34RegularExpressionMatch {
+public class _034RegularExpressionMatch {
 
     public static boolean match01(String str, String pattern) {
         if (str == null || pattern == null) return false;

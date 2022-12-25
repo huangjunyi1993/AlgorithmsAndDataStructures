@@ -17,7 +17,7 @@ package _03经典面试题目.动态规划;
  *
  * Created by huangjunyi on 2022/10/8.
  */
-public class _30SnakeGame {
+public class _030SnakeGame {
 
     public static int getMaxLen(int[][] matrix) {
         if (matrix == null || matrix.length == 0 || matrix[0] == null || matrix[0].length == 0) return 0;

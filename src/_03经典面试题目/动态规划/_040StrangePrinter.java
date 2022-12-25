@@ -16,7 +16,7 @@ package _03经典面试题目.动态规划;
  *
  * Created by huangjunyi on 2022/10/21.
  */
-public class _40StrangePrinter {
+public class _040StrangePrinter {
     public int strangePrinter(String s) {
         /*
         范围的上的尝试模型

@@ -21,7 +21,7 @@ package _03经典面试题目.动态规划;
 
  * Created by huangjunyi on 2022/10/8.
  */
-public class _31PalindromeWays {
+public class _031PalindromeWays {
 
     public static int getPalindromeWays(String str) {
         char[] chs = str.toCharArray();

@@ -17,7 +17,7 @@ package _03经典面试题目.动态规划;
  *
  * Created by huangjunyi on 2022/10/20.
  */
-public class _39RemoveBoxes {
+public class _039RemoveBoxes {
     public int removeBoxes(int[] boxes) {
         int N = boxes.length;
         int[][][] dp = new int[N][N][N];

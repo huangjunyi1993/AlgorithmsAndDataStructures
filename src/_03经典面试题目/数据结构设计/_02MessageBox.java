@@ -24,9 +24,9 @@ public class _02MessageBox {
 
     private static class MessageBox {
 
-        private Map<Integer, Node> headMap;
-        private Map<Integer, Node> tailMap;
-        private int waitSeq;
+        private Map<Integer, Node> headMap; // 连续区间尾表
+        private Map<Integer, Node> tailMap; // 连续区间头表
+        private int waitSeq; // 等待到来的序号
 
         public MessageBox() {
             headMap = new HashMap<>();
@@ -38,8 +38,11 @@ public class _02MessageBox {
 
             /*
             先单独把新到的信息封装为node，单独放入headMap和tailMap
-            然后在看tailMap是否有seq-1的节点
+
+            然后在看
+            tailMap是否有seq-1的节点
             headMap是否有seq+1节点
+
             把链表串联好
             修正headMap和tailMap
 
@@ -50,18 +53,21 @@ public class _02MessageBox {
             headMap.put(seq, node);
             headMap.put(seq, node);
 
+            // 尾表包含seq-1？
             if (tailMap.containsKey(seq - 1)) {
                 tailMap.get(seq - 1).next = node;
                 tailMap.remove(seq - 1);
                 headMap.remove(seq);
             }
 
+            // 头表包含seq+1？
             if (headMap.containsKey(seq + 1)) {
                 node.next = headMap.get(seq + 1);
                 headMap.remove(seq + 1);
                 tailMap.remove(seq);
             }
 
+            // 当前来的时等待的序号？
             if (seq == waitSeq) print();
 
         }
@@ -70,6 +76,7 @@ public class _02MessageBox {
             /*
                 连续打印信息，直到在遇到不连续的节点
                 同时更新waitSeq
+                把头和尾删除掉
              */
 
             Node node = headMap.get(waitSeq);

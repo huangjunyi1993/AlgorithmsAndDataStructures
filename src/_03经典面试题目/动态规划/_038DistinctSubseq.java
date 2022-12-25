@@ -5,7 +5,7 @@ package _03经典面试题目.动态规划;
  *
  * Created by huangjunyi on 2022/10/16.
  */
-public class _38DistinctSubseq {
+public class _038DistinctSubseq {
 
     public static int distinctSubseq(String s) {
         if (s == null) return 0;

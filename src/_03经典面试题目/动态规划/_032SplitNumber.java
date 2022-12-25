@@ -8,7 +8,7 @@ package _03经典面试题目.动态规划;
  * 给定一个正数n，求裂开的方法数。 动态规划优化状态依赖的技巧
  * Created by huangjunyi on 2022/10/8.
  */
-public class _32SplitNumber {
+public class _032SplitNumber {
 
     /**
      * 递归解法

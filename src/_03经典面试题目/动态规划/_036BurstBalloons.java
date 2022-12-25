@@ -3,7 +3,7 @@ package _03经典面试题目.动态规划;
 /**
  * Created by huangjunyi on 2022/10/9.
  */
-public class _36BurstBalloons {
+public class _036BurstBalloons {
 
     /**
      * 暴力递归

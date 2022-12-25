@@ -22,7 +22,7 @@ package _03经典面试题目.动态规划;
  *
  * Created by huangjunyi on 2022/10/8.
  */
-public class _33KInversions {
+public class _033KInversions {
 
     public static int inversionsNum1(int N, int K) {
         if (N < 1 || K < 0) return 0;

@@ -6,7 +6,7 @@ package _03经典面试题目.动态规划;
  *
  * Created by huangjunyi on 2022/10/9.
  */
-public class _37MinimumCostToMergeStones {
+public class _037MinimumCostToMergeStones {
 
     public static int mergeStones1(int[] stones, int K) {
         int N = stones.length;

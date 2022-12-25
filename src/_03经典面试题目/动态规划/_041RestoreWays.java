@@ -12,7 +12,7 @@ package _03经典面试题目.动态规划;
  *
  * Created by huangjunyi on 2022/10/21.
  */
-public class _41RestoreWays {
+public class _041RestoreWays {
 
     public static int ways1(int[] arr) {
         int N = arr.length;
