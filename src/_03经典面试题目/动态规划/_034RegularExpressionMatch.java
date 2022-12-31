@@ -14,6 +14,12 @@ package _03经典面试题目.动态规划;
  */
 public class _034RegularExpressionMatch {
 
+    /**
+     * 暴力尝试-样本对应模型（行列模型）
+     * @param str
+     * @param pattern
+     * @return
+     */
     public static boolean match01(String str, String pattern) {
         if (str == null || pattern == null) return false;
         char[] chs = str.toCharArray();
@@ -80,10 +86,69 @@ public class _034RegularExpressionMatch {
         boolean[][] dp = new boolean[N + 1][M + 1];
 
         /*
-        dp初始化
+        dp初始化：
         因为dp[i][j] 依赖到 dp[i + 1][j + 1]，以及dp[i...][j + 2]
         所有要把倒数两列和倒数第一行填好
+
+        倒数两列：
+        M耗尽，只有N也耗尽，才为true，所以M列，只有N行为true
+        M只剩一个字符，那么M-1和N-1相等，或者M-1是.，N-1行为true，其他行为false
+
+        倒数第一行：
+        N耗尽，M是x*x*x*这样的，这些列，为true
          */
+        dp[N][M] = true;
+        if (N > 0 && M > 0) dp[N - 1][M - 1] = (chs[N - 1] == exp[M - 1] || exp[M - 1] == '.') ? true : false;
+        for (int i = M - 2; i >= 0; i -= 2) {
+            if (exp[i] != '*' && exp[i + 1] == '*') {
+                dp[N][i] = true;
+            } else {
+                break;
+            }
+        }
+
+        /*
+        dp[i][j]依赖：
+        1、不是* => dp[i + 1][j + 1]
+        2、是 * => dp[i...][j + 2]
+         */
+        for (int i = N - 1; i >= 0; i--) {
+            for (int j = M - 2; j >= 0; j--) {
+                if (exp[j + 1] != '*') {
+                    dp[i][j] = dp[i + 1][j + 1] && (chs[i] == exp[j] || exp[j] == '.');
+                } else {
+                    int si = i;
+                    int ei = j;
+                    while (si != N && (chs[si] == exp[ei] || exp[ei] == '.')) {
+                        if (dp[si][ei + 2]) {
+                            dp[i][j] = true;
+                            break;
+                        }
+                        si++;
+                    }
+                    if (!dp[i][j]) dp[i][j] = dp[si][ei + 2];
+                }
+            }
+        }
+
+        return dp[0][0];
+    }
+
+    /**
+     * 递归改成动态规划 + 斜率优化
+     * @param str
+     * @param pattern
+     * @return
+     */
+    public static boolean match03(String str, String pattern) {
+        if (str == null || pattern == null) return false;
+        char[] chs = str.toCharArray();
+        char[] exp = pattern.toCharArray();
+        int N = chs.length;
+        int M = exp.length;
+        if (!isValid(chs, exp)) return false;
+        boolean[][] dp = new boolean[N + 1][M + 1];
+
         dp[N][M] = true;
         if (N > 0 && M > 0) dp[N - 1][M - 1] = (chs[N - 1] == exp[M - 1] || exp[M - 1] == '.') ? true : false;
         for (int i = M - 2; i >= 0; i -= 2) {
@@ -101,14 +166,15 @@ public class _034RegularExpressionMatch {
                 } else {
                     int si = i;
                     int ei = j;
-                    while (si != N && (chs[si] == exp[ei] || exp[ei] == '.')) {
-                        if (dp[i][ei + 2]) {
-                            dp[i][j] = true;
-                            break;
-                        }
-                        si++;
+                    if (si != N && (chs[si] == exp[ei] || exp[ei] == '.')) {
+                        // 如果匹配
+                        // 应该是dp[i...][j + 2]
+                        // 但是dp[i+1....][j + 2]，在算dp[i+1][j]时算过了，这部分，直接取值
+                        dp[i][j] = dp[si][ei + 2] || dp[si + 1][ei];
+                    } else {
+                        // 如果不匹配，只能把*转为0个ei，跳到+2位置匹配
+                        dp[i][j] = dp[si][ei + 2];
                     }
-                    if (!dp[i][j]) dp[i][j] = dp[i][j + 2];
                 }
             }
         }

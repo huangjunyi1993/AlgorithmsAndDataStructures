@@ -86,14 +86,39 @@ public class _033KInversions {
         dp[7][8] 依赖 =>            dp[6][8] + ... + dp[6][3] + dp[6][2]  dp[6][2] -> dp[i - 1][j - 1]
         dp[7][9] = dp[6][9] + dp[7][8] - dp[6][2]
         所以：i <= j 时
-        dp[i][j] = dp[i - 1][j] + dp[i][j - 1] - dp[i - 1][j-1]
+        dp[i][j] = dp[i - 1][j] + dp[i][j - 1] - dp[i - 1][j-i]
          */
         for (int i = 2; i <= N; i++) {
             for (int j = 1; j <= K; j++) {
-                dp[i][j] = dp[i - 1][j] + dp[i][j - 1] - (i <= j ? dp[i - 1][j-1] : 0);
+                dp[i][j] = dp[i - 1][j] + dp[i][j - 1] - (i <= j ? dp[i - 1][j-i] : 0);
             }
         }
         return dp[N][K];
+    }
+
+    /**
+     * https://leetcode.cn/problems/k-inverse-pairs-array/
+     */
+    class Solution {
+        public int kInversePairs(int n, int k) {
+            if (n < 1 || k < 0) return 0;
+            int[][] dp = new int[n + 1][k + 1];
+            dp[1][0] = 1;
+            for (int i = 2; i <= n; i++) {
+                dp[i][0] = 1;
+            }
+            int mod = 1000000007;
+            for (int i = 2; i <= n; i++) {
+                for (int j = 1; j <= k; j++) {
+                    dp[i][j] = (dp[i - 1][j] + dp[i][j - 1]) % mod;
+                    if (i <= j) {
+                        // 加一个mod防止减成负数
+                        dp[i][j] = (dp[i][j] + mod - dp[i - 1][j-i]) % mod;
+                    }
+                }
+            }
+            return dp[n][k];
+        }
     }
 
 }
