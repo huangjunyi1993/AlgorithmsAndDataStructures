@@ -20,6 +20,7 @@ public class _04CompleteTreeNodeNumber {
     }
 
     private static int bs(Node node, int level, int h) {
+        // base case：达到最底层，一个节点，就是自己
         if (level == h) {
             return 1;
         }

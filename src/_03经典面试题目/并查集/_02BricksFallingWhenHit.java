@@ -62,6 +62,7 @@ public class _02BricksFallingWhenHit {
             if (valid(i, j) && valid(i1, j1)) {
                 Dot father1 = find(i, j);
                 Dot father2 = find(i1, j1);
+                if (father1 == father2) return;
                 Integer size1 = sizeMap.get(father1);
                 Integer size2 = sizeMap.get(father2);
                 boolean isCelling1 = cellingSet.contains(father1);
@@ -112,13 +113,15 @@ public class _02BricksFallingWhenHit {
             sizeMap = new HashMap<>();
             for (int i = 0; i < N; i++) {
                 for (int j = 0; j < M; j++) {
-                    Dot dot = new Dot();
-                    dots[i][j] = dot;
-                    fatherMap.put(dot, dot);
-                    sizeMap.put(dot, 1);
-                    if (i == 0) {
-                        cellingSet.add(dot);
-                        cellingAll++;
+                    if (grid[i][j] == 1) {
+                        Dot dot = new Dot();
+                        dots[i][j] = dot;
+                        fatherMap.put(dot, dot);
+                        sizeMap.put(dot, 1);
+                        if (i == 0) {
+                            cellingSet.add(dot);
+                            cellingAll++;
+                        }
                     }
                 }
             }
@@ -132,27 +135,31 @@ public class _02BricksFallingWhenHit {
          * 把炮弹指定的位置的2变为1，然后尝试与上下左右相连，
          * 返回相连后对比相连前增加的与天花板相连的1的数目
          *
-         * @param i
-         * @param j
+         * @param row
+         * @param col
          * @return
          */
-        public int finger(int i, int j) {
-            int preCellingAll = this.cellingAll;
-            grid[i][j] = 1;
+        public int finger(int row, int col) {
+            grid[row][col] = 1;
             Dot dot = new Dot();
-            dots[i][j] = dot;
+            dots[row][col] = dot;
             fatherMap.put(dot, dot);
             sizeMap.put(dot, 1);
-            if (i == 0) {
+            if (row == 0) {
                 cellingSet.add(dot);
                 cellingAll += 1;
             }
-            union(i, j, i - 1, j);
-            union(i, j, i, j + 1);
-            union(i, j, i + 1, j);
-            union(i, j, i, j - 1);
+            int preCellingAll = this.cellingAll;
+            union(row, col, row - 1, col);
+            union(row, col, row, col + 1);
+            union(row, col, row + 1, col);
+            union(row, col, row, col - 1);
             int curCellingAll = this.cellingAll;
-            return curCellingAll == preCellingAll ? 0 : curCellingAll - preCellingAll - 1;
+            if (row == 0) {
+                return curCellingAll - preCellingAll;
+            } else {
+                return curCellingAll == preCellingAll ? 0 : curCellingAll - preCellingAll - 1;
+            }
         }
 
     }
