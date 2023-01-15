@@ -28,7 +28,7 @@ public class Code05_CardsProblem {
         }
 
         int ways = 0;
-        // 统计3张牌全部相同的中方法数
+        // 统计3张牌全部相同的中方法数 c(n,3)
         for (int n : count) {
             if (n > 2) {
                 ways += n == 3 ? 1 : (n * (n - 1) * (n  - 2)) / 6;

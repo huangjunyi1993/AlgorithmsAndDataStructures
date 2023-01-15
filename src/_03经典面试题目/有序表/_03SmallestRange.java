@@ -37,10 +37,13 @@ public class _03SmallestRange {
         /*
         通过有序表求解
 
-        有序表节点记录值、来自哪个数组、下标
+        有序表节点记录：值、来自哪个数组、下标
+        有序表根据节点中的数值value进行升序排序，然后value相同根据数组id排序
 
         一开始先从每个数组中选0位置数组成Node放入有序表
-        然后每次弹出表头表尾，区间更小则更新
+        然后：
+        每次那有序出的表头表尾，相减，看区间范围，区间更小则更新
+        每次弹出表头节点，然后把表头节点所在数组的下一个数，入有序表
          */
         TreeSet<Node> orderSet = new TreeSet<>((o1, o2) -> o1.value != o2.value ? o1.value - o2.value : o1.arrid - o2.arrid);
         for (int i = 0; i < N; i++) {

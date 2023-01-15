@@ -2,6 +2,7 @@ package _03经典面试题目.动态规划;
 
 /**
  * 题意见：
+ * https://leetcode.cn/problems/minimum-cost-to-merge-stones/description/
  * _03经典面试题目/动态规划/MinimumCostToMergeStones.png
  *
  * Created by huangjunyi on 2022/10/9.
@@ -76,7 +77,7 @@ public class _037MinimumCostToMergeStones {
             return part == 1 ? 0 : -1;
         }
         if (part == 1) {
-            int next = process(L, R, k, stones, k, preSum);
+            int next = process(L, R, k, stones, k, preSum, dp);
             if (next == -1) {
                 dp[L][R][part] = -1;
                 return -1;
@@ -87,8 +88,8 @@ public class _037MinimumCostToMergeStones {
         } else {
             int res = Integer.MAX_VALUE;
             for (int mid = L; mid < R; mid += k - 1) {
-                int next1 = process(L, mid, 1, stones, k, preSum);
-                int next2 = process(mid + 1, R, part - 1, stones, k, preSum);
+                int next1 = process(L, mid, 1, stones, k, preSum, dp);
+                int next2 = process(mid + 1, R, part - 1, stones, k, preSum, dp);
                 res = Math.min(res, next1 + next2);
             }
             dp[L][R][part] = res;

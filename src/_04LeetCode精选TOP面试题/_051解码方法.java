@@ -45,9 +45,12 @@ public class _051解码方法 {
 
     private int process(char[] chs, int index) {
         if (index == chs.length) return 1;
+        // 0没有对应的字符，前面的确定是错的，返回
         if (chs[index] == '0') return 0;
+        // 自己作为一个字符
         int ways = process(chs, index + 1);
         if (index + 1 == chs.length) return ways;
+        // i和i+1，作为一个字符（前提是拼一起小于等于26）
         int num = (chs[index] - '0') * 10 + (chs[index + 1] - '0');
         if (num <= 26) {
             ways += process(chs, index + 2);

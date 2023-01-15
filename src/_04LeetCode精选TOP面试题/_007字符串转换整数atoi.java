@@ -22,16 +22,21 @@ public class _007字符串转换整数atoi {
         while (s.charAt(start) == '0') start++;
         s = (s.charAt(0) == '+' || s.charAt(0) == '-' ? s.charAt(0) : "") + s.substring(start);
 
+        // 防溢出处理
+        int m = Integer.MIN_VALUE / 10; // 系统最小除10
+        int o = Integer.MIN_VALUE % 10; // 系统最小模10
+
         // 以负数形式进行处理
-        int m = Integer.MIN_VALUE / 10;
-        int o = Integer.MIN_VALUE % 10;
         int res = 0;
         boolean neg = s.charAt(0) == '-';
         int i = s.charAt(0) == '+' || s.charAt(0) == '-' ? 1 : 0;
         for (; i < s.length(); i++) {
+
+            // 防溢出处理
             if (res < m || (res == m || '0' - s.charAt(i) < o)) {
                 return neg ? Integer.MIN_VALUE : Integer.MAX_VALUE;
             }
+
             res = res * 10 + ('0' - s.charAt(i));
         }
 

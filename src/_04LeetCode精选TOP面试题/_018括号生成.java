@@ -17,6 +17,10 @@ public class _018括号生成 {
         return res;
     }
 
+    /**
+     * @param leftNum 左括号减去右括号剩余的数
+     * @param leftRest 剩余可以填的左括号数
+     */
     private void process(char[] path, List<String> res, int index, int leftNum, int leftRest) {
         if (index == path.length) {
             res.add(String.valueOf(path));

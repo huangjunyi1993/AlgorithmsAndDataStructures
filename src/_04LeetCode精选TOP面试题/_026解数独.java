@@ -30,12 +30,15 @@ public class _026解数独 {
 
     private boolean process(char[][] board, int i, int j, boolean[][] row, boolean[][] col, boolean[][] cel) {
         if (i == 9) return true;
+        // 计算下一个位置的行列号
         int nexti = j == 8 ? i + 1 : i;
         int nextj = j == 8 ? 0 : j + 1;
         if (board[i][j] != '.') {
+            // 当前位置不是点，不用填，去下一个位置
             return process(board, nexti, nextj, row, col, cel);
         } else {
-            int bid = (i / 3) * 3 + (j / 3);
+            // 是点，尝试
+            int bid = (i / 3) * 3 + (j / 3); // 计算桶号
             for (int num = 1; num <= 9; num++) {
                 if (row[i][num] || col[j][num] || cel[bid][num]) continue;
                 row[i][num] = true;

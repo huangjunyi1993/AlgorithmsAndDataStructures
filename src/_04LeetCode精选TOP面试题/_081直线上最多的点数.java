@@ -18,6 +18,13 @@ public class _081直线上最多的点数 {
             遍历每个起始点
             每个起始点，往后统计，有多少个共x，共y，共斜率的
             每步收一个答案
+
+            每步，4中情况：
+            1、共点
+            2、共横线
+            3、共竖线
+            4、共斜率（斜率, 斜率上点数）
+            max(情况2, 情况3, max(情况4)) + 情况1
              */
             for (int i = 0; i < N; i++) {
                 map.clear();
@@ -36,6 +43,9 @@ public class _081直线上最多的点数 {
                     else if (X == curX) sameX++;
                     else if (Y == curY) sameY++;
                     else {
+                        // 情况4
+                        // 斜率不能用double，有精度问题
+                        // 所以要除去最大公约数，然后通过双层map表示
                         int diffX = X - curX;
                         int diffY = Y - curY;
                         int gcd = gcd(diffX, diffY);

@@ -20,13 +20,13 @@ public class _01PalindromePairs {
         先把每个字符串与对应的下标rest，加入到一个map中 wordIndexMap
         然后遍历每个字符串
 
-        比如遍历到 aabaa 对应下标为index
+        比如遍历到 字符串str aabaa 对应下标为index
 
-        从左往右看，直到中点
+        从左往右看，直到中点，检查str的某些前缀是否是回文，并且剩下的后缀逆序后，是否在wordIndexMap存在，是则有一种结果（剩余后缀逆序后拼前面）
         a是不是回文串 -> 是 -> 看 abaa 的逆序串 aaba 是否存在 wordIndexMap 中 -> 存在 -> aaba 拼接在前面，可以形成回文串 -> 记录结果(rest，index)
         接着aa同样方式判断
 
-        从右往左看，直到中点
+        从右往左看，直到中点，检查str的某些后缀是否是回文，并且剩下的前缀逆序后，是否在wordIndexMap存在，是则有一种结果（剩余前缀逆序后拼后面）
         a是不是回文串 -> 是 -> 看 aaba 的逆序串 abaa 是否存在 wordIndexMap 中 -> 存在 -> abaa 拼接在后面，可以形成回文串 -> 记录结果(index, rest)
         接着aa同样方式处理
 
@@ -53,6 +53,8 @@ public class _01PalindromePairs {
                                 int index,
                                 HashMap<String, Integer> wordIndexMap,
                                 List<List<Integer>> res) {
+
+        // 单独检查，自己是回文串，wordIndexMap里又有又有空串的情况，前面拼一个空串，后面拼一个空串，共算2
         String reverse = getReverse(word);
         Integer rest = wordIndexMap.get("");
         if (rest != null && rest != index && reverse.equals(word)) {
@@ -100,10 +102,12 @@ public class _01PalindromePairs {
         int R = -1;
         int C = -1;
         for (int i = 0; i < chs.length; i++) {
-            rArr[i] = R > i ? Math.min(rArr[2 * C - 1] ,R - i) : 1;
+            rArr[i] = R > i ? Math.min(rArr[2 * C - i], R - i) : 1;
             while (i + rArr[i] < chs.length && i - rArr[i] >= 0) {
                 if (chs[i + rArr[i]] == chs[i - rArr[i]]) {
                     rArr[i]++;
+                } else {
+                    break;
                 }
             }
             if (i + rArr[i] > R) {

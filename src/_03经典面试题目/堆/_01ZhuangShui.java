@@ -5,6 +5,7 @@ import java.util.PriorityQueue;
 
 /**
  * 如果给你一个二维数组，每一个值表示这一块地形的高度，求整块地形能装下多少水。
+ * https://leetcode.cn/problems/trapping-rain-water-ii/
  * <a>https://img-blog.csdnimg.cn/20210622222934916.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3lzaHVvbw==,size_16,color_FFFFFF,t_70<a/>
  * Created by huangjunyi on 2022/9/18.
  */
@@ -22,7 +23,7 @@ public class _01ZhuangShui {
         }
     }
 
-    public static int water(int[][] arr) {
+    public static int trapRainWater(int[][] arr) {
         if (arr == null || arr.length == 0 || arr[0] == null || arr[0].length ==0) return 0;
         int R = arr.length;
         int C = arr[0].length;
@@ -33,16 +34,16 @@ public class _01ZhuangShui {
          */
         PriorityQueue<Node> heap = new PriorityQueue<>(Comparator.comparingInt(o -> o.value));
         boolean[][] visited = new boolean[R][C];
-        for (int i = 0; i < R - 1; i++) {
+        for (int i = 0; i < C - 1; i++) {
             heap.add(new Node(arr[0][i], 0, i));
             visited[0][i] = true;
         }
-        for (int i = 0; i < C - 1; i++) {
-            heap.add(new Node(arr[i][R-1], i, R - 1));
-            visited[i][R - 1] = true;
+        for (int i = 0; i < R - 1; i++) {
+            heap.add(new Node(arr[i][C - 1], i, C - 1));
+            visited[i][C - 1] = true;
         }
         for (int i = C - 1; i > 0; i--) {
-            heap.add(new Node(arr[R-1][i], R - 1, i));
+            heap.add(new Node(arr[R - 1][i], R - 1, i));
             visited[R - 1][i] = true;
         }
         for (int i = R - 1; i > 0; i--) {

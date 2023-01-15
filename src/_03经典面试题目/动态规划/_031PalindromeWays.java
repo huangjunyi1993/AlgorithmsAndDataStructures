@@ -24,6 +24,7 @@ package _03经典面试题目.动态规划;
 public class _031PalindromeWays {
 
     public static int getPalindromeWays(String str) {
+        if (str == null || str.length() == 0) return 0;
         char[] chs = str.toCharArray();
         int N = chs.length;
 
@@ -39,7 +40,7 @@ public class _031PalindromeWays {
         dp[i+1][j]等于①和③的方法数相加
         dp[i][j-1]等于①和②的方法数相加
         dp[i + 1][j - 1]等于①的方法数
-        所以dp[i + 1][j] + dp[i][j - 1] + dp[i + 1][j - 1]，才得出①+②+③的方法数
+        所以dp[i + 1][j] + dp[i][j - 1] - dp[i + 1][j - 1]，才得出①+②+③的方法数
         然后单独判断④是否成立，成立则加上dp[i + 1][j - 1]+1，+1是因为中间空串，i和j位置字符也能组成回文串
          */
 
@@ -59,7 +60,7 @@ public class _031PalindromeWays {
         // 根据依赖关系，填好其他格子，注意依赖的左侧和下方格子都是两种不同方案混杂的结果
         for (int i = N - 3; i >= 0; i--) {
             for (int j = i + 2; j < N; j++) {
-                dp[i][j] = dp[i + 1][j] + dp[i][j - 1] + dp[i + 1][j - 1];
+                dp[i][j] = dp[i + 1][j] + dp[i][j - 1] - dp[i + 1][j - 1];
                 if (chs[i] == chs[j]) {
                     dp[i][j] += dp[i + 1][j - 1] + 1;
                 }
@@ -67,6 +68,69 @@ public class _031PalindromeWays {
         }
 
         return dp[0][N - 1];
+    }
+
+    // 暴力方法
+    public static int ways1(String str) {
+        if (str == null || str.length() == 0) {
+            return 0;
+        }
+        char[] s = str.toCharArray();
+        char[] path = new char[s.length];
+        return process(str.toCharArray(), 0, path, 0);
+    }
+
+    public static int process(char[] s, int si, char[] path, int pi) {
+        if (si == s.length) {
+            return isP(path, pi) ? 1 : 0;
+        }
+        int ans = process(s, si + 1, path, pi);
+        path[pi] = s[si];
+        ans += process(s, si + 1, path, pi + 1);
+        return ans;
+    }
+
+    public static boolean isP(char[] path, int pi) {
+        if (pi == 0) {
+            return false;
+        }
+        int L = 0;
+        int R = pi - 1;
+        while (L < R) {
+            if (path[L++] != path[R--]) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public static String randomString(int len, int types) {
+        char[] str = new char[len];
+        for (int i = 0; i < str.length; i++) {
+            str[i] = (char) ('a' + (int) (Math.random() * types));
+        }
+        return String.valueOf(str);
+    }
+
+    public static void main(String[] args) {
+        int N = 10;
+        int types = 5;
+        int testTimes = 100000;
+        System.out.println("测试开始");
+        for (int i = 0; i < testTimes; i++) {
+            int len = (int) (Math.random() * N);
+            String str = randomString(len, types);
+            int ans1 = ways1(str);
+            int ans2 = getPalindromeWays(str);
+            if (ans1 != ans2) {
+                System.out.println(str);
+                System.out.println(ans1);
+                System.out.println(ans2);
+                System.out.println("Oops!");
+                break;
+            }
+        }
+        System.out.println("测试结束");
     }
 
 }

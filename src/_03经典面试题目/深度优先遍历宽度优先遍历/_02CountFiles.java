@@ -1,8 +1,7 @@
-package _03经典面试题目.图的优先遍历;
+package _03经典面试题目.深度优先遍历宽度优先遍历;
 
 import java.io.File;
 import java.util.LinkedList;
-import java.util.Stack;
 
 /**
  * 统计一个文件夹里的文件数目（包括子文件夹），文件夹不算文件

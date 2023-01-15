@@ -35,8 +35,8 @@ public class _011罗马数字转整数 {
         }
         int sum = 0;
         for (int i = 0; i < nums.length - 1; i++) {
-            if (nums[i] < nums[i + 1]) sum -= nums[i];
-            else sum += nums[i];
+            if (nums[i] < nums[i + 1]) sum -= nums[i]; // 前面比后面的数小，出负数
+            else sum += nums[i]; // 前面比后面的数大，出正数
         }
         sum += nums[nums.length - 1];
         return sum;
