@@ -23,7 +23,7 @@ public class _226翻转二叉树 {
     class Solution {
         public TreeNode invertTree(TreeNode root) {
             if (root == null) return root;
-            // 递归
+            // 递归 左树转了右指针接，右树转了左指针接
             TreeNode left = invertTree(root.left);
             TreeNode right = invertTree(root.right);
             root.left = right;
