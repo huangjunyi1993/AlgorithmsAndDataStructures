@@ -4,7 +4,7 @@ package _01基础._01二分;
  * 寻找局部最小
  * arr数组无序，并且相邻两个数不相等，从中找出一个局部最小的数，并返回下标
  * 局部最小：
- * 比如下标为i的数，如果小于小标i-1和i+1的数，则下标为i的数就是局部最小
+ * 比如下标为i的数，如果小于下标i-1和i+1的数，则下标为i的数就是局部最小
  * 如果下标为0的数，小于下标为1的数，则下标为0的数就是局部最小
  * 如果下标为arr.length-1的数，小于arr.length-2的数，则arr.length-1的数就是局部最小
  */
@@ -39,6 +39,25 @@ public class BinarySearch04 {
 
     public static void main(String[] args) {
         System.out.println(search(new int[]{3,2,4,6,7,9}));
+        System.out.println(test(new int[]{3,2,4,6,7,9}));
+    }
+
+    public static int test(int[] arr) {
+        if (arr == null || arr.length == 0) return -1;
+
+        if (arr[0] < arr[1]) return 0;
+        if (arr[arr.length - 1] < arr[arr.length - 2]) return arr.length - 1;
+
+        int l = 1;
+        int r = arr.length - 2;
+
+        while (l <= r) {
+            int mid = l + ((r - l) >> 1);
+            if (arr[mid] < arr[mid - 1] && arr[mid] < arr[mid + 1]) return mid;
+            else if (arr[mid] > arr[mid - 1]) r = mid - 1;
+            else l = mid + 1;
+        }
+        return -1;
     }
 
 }

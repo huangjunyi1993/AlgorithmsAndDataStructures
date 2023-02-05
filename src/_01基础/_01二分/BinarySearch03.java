@@ -25,6 +25,24 @@ public class BinarySearch03 {
 
     public static void main(String[] args) {
         System.out.println(search(new int[]{0,0,1,1,1,3,3,3,3,3}, 2));
+        System.out.println(test(new int[]{0,0,1,1,1,3,3,3,3,3}, 2));
+    }
+
+    public static int test(int[] arr, int num) {
+        if (arr == null || arr.length == 0) return  -1;
+        int l = 0;
+        int r = arr.length;
+        int index = -1;
+        while (l <= r) {
+            int mid = l + ((r - l) >> 1);
+            if (arr[mid] <= num) {
+                index = mid;
+                l = mid + 1;
+            } else {
+                r = mid - 1;
+            }
+        }
+        return index;
     }
 
 }
