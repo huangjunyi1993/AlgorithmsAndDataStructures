@@ -1,6 +1,5 @@
 package _01基础._05归并排序;
 
-import java.util.Arrays;
 
 /**
  * 求数组最小和：
