@@ -21,8 +21,8 @@ public class List03 {
         }
 
         //此时的head的value必然与num不等
-        Node pre = null;
-        Node cur = null;
+        Node pre = head;
+        Node cur = head;
 
         while (cur != null) {
             if (cur.value == num) {
