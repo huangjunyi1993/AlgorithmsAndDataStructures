@@ -45,9 +45,11 @@ public class QuickSort03 {
     }
 
     private static int[] partition(int[] arr, int l, int r) {
-        int less = -1;
+        if (l > r) return new int[]{-1, -1};
+        if (l == r) return new int[]{l, r};
+        int less = l - 1;
         int more = r;
-        int cur = 0;
+        int cur = l;
         while (cur != more) {
             if (arr[cur] < arr[r]) {
                 swap(arr, cur++, ++less);

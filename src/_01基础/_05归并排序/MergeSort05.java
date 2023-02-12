@@ -23,7 +23,7 @@ public class MergeSort05 {
         int[] help = new int[r - l + 1];
 
         /*
-        归并的步骤都一样，只是再merge前，先搞一下
+        归并的步骤都一样，只是先merge前，先搞一下
          */
         int windowR = mid + 1; // 右边窗口，滑到乘2大于左，就停，那么计算就是：windowR - m - 1
         int res = 0;
