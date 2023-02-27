@@ -35,7 +35,7 @@ public class DynamicProgramming16 {
         // 要index位置的数，但是要判断不能超过rest
         int p2 = 0;
         if (arr[index] <= rest) {
-            p2 = process(arr, index + 1, rest - arr[index]);
+            p2 = arr[index] + process(arr, index + 1, rest - arr[index]);
         }
         return Math.max(p1, p2);
     }
@@ -60,7 +60,7 @@ public class DynamicProgramming16 {
         // 要index位置的数，但是要判断不能超过rest
         int p2 = 0;
         if (arr[index] <= rest) {
-            p2 = process(arr, index + 1, rest - arr[index]);
+            p2 = arr[index] + process(arr, index + 1, rest - arr[index]);
         }
         return Math.max(p1, p2);
         所以index依赖index+1
@@ -73,7 +73,7 @@ public class DynamicProgramming16 {
                 // 要index位置的数，但是要判断不能超过rest
                 int p2 = 0;
                 if (arr[index] <= rest) {
-                    p2 = dp[index + 1][rest - arr[index]];
+                    p2 = arr[index] + dp[index + 1][rest - arr[index]];
                 }
                 dp[index][rest] = Math.max(p1, p2);
             }
