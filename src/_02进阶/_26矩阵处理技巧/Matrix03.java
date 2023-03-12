@@ -32,10 +32,10 @@ public class Matrix03 {
     private static void rotate(int[][] matrix, int a, int b, int c, int d) {
         for (int i = 0; i < c - a; i++) {
             int temp = matrix[b][a + i];
-            matrix[b][a + i] = matrix[d + i][a];
-            matrix[d + i][a] = matrix[d][c - i];
-            matrix[d][c - i] = matrix[d - i][c];
-            matrix[d - i][c] = temp;
+            matrix[b][a + i] = matrix[d - i][a];
+            matrix[d - i][a] = matrix[d][c - i];
+            matrix[d][c - i] = matrix[b + i][c];
+            matrix[b + i][c] = temp;
         }
     }
 
