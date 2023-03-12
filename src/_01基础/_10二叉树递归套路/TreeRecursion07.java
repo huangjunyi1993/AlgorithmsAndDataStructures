@@ -33,7 +33,7 @@ public class TreeRecursion07 {
 
         // 根据从左右子树收集回来的信息，计算height和isFull
         Info info = new Info();
-        info.height = leftInfo.height + 1 + rightInfo.height;
+        info.height = Math.max(leftInfo.height, rightInfo.height) + 1;
         info.isFull = leftInfo.isFull && rightInfo.isFull && leftInfo.height == rightInfo.height;
 
         // 根据从左右子树收集回来的信息，计算isCBT

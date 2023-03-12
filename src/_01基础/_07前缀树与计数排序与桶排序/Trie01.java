@@ -50,7 +50,10 @@ public class Trie01 {
         node.pass--;
         for (int i = 0; i < chs.length; i++) {
             // 如果沿途发现有节点pass减到0，直接置为null，返回
-            if (--node.paths[chs[i] - 'a'].pass == 0) node.paths[chs[i] - 'a'] = null;
+            if (--node.paths[chs[i] - 'a'].pass == 0) {
+                node.paths[chs[i] - 'a'] = null;
+                return;
+            }
             node = node.paths[chs[i] - 'a'];
         }
         // 结尾字符路径连接的节点，end--

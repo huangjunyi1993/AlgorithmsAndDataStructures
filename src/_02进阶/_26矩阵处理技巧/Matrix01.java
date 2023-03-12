@@ -10,7 +10,7 @@ public class Matrix01 {
         /*
         A点(a,b)
         B点(c,d)
-        A点每次往左走一步，到最右侧了，则每次往下走一步
+        A点每次往右走一步，到最右侧了，则每次往下走一步
         B点每次往下走一步，到最下方了，则每次往右走一步
         那么每次AB两点间，都能全都一条斜线
         用一个boolean变量标识本次应该从上午往下打印还是从下往上打印
@@ -23,7 +23,7 @@ public class Matrix01 {
              -----------
             d ➡
          */
-        // A点左边
+        // A点坐标
         int a = 0;
         int b = 0;
         // B点坐标
@@ -39,7 +39,7 @@ public class Matrix01 {
             b = a == endColumn ? b + 1 : b;
             a = a == endColumn ? a : a + 1;
             // B点每次往下走一步，到最下方了，则每次往右走一步
-            d = c == endRow ? c + 1 : c;
+            d = c == endRow ? d + 1 : d;
             c = c == endRow ? c : c + 1;
         }
     }
@@ -61,7 +61,7 @@ public class Matrix01 {
             while (b < matrix.length && a >= 0) System.out.println(matrix[b++][a--]);
         } else {
             //从左下往右上打印
-            while (a < matrix[0].length && c >= 0) System.out.println(matrix[c--][d++]);
+            while (d < matrix[0].length && c >= 0) System.out.println(matrix[c--][d++]);
         }
     }
 
