@@ -27,7 +27,7 @@ public class Matrix02 {
         // 右下角的左边
         int c = matrix[0].length - 1;
         int d = matrix.length - 1;
-        // 分圈，从往往里，一圈一圈的打印
+        // 分圈，从外往里，一圈一圈的打印
         while (a <= c && b <= d) {
             printMatrix(matrix, a++, b++, c--, d--);
         }
